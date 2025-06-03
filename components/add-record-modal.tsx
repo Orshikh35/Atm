@@ -44,15 +44,15 @@ export function AddRecordModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl">
+      <div className="bg-white rounded-xl w-full max-w-3xl max-h-[90vh] shadow-2xl">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/10"></div>
+        <div className=" p-6 bg-gray-800/40 rounded-t-xl relative  ">
+    
           <div className="relative z-10 flex items-center justify-between">
             <h2 className="text-2xl font-bold">Шинэ бичлэг нэмэх</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-xl transition-colors duration-200"
+              className="p-2 rounded-xl transition-colors duration-200"
             >
               <X className="h-6 w-6" />
             </button>
@@ -61,7 +61,7 @@ export function AddRecordModal({
         </div>
 
         {/* Form */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-6 max-h-[calc(100vh-120px)]">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -72,7 +72,7 @@ export function AddRecordModal({
                     setFormData({ ...formData, status: e.target.value })
                   }
                   required
-                  className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white"
+                  className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
                 >
                   <option value="">Сонгоно уу</option>
                   <option value="Шийдвэрлэсэн">Шийдвэрлэсэн</option>
@@ -92,7 +92,7 @@ export function AddRecordModal({
                     setFormData({ ...formData, engineer: e.target.value })
                   }
                   required
-                  className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white"
+                  className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
                 />
               </div>
             </div>
@@ -106,7 +106,7 @@ export function AddRecordModal({
                   setFormData({ ...formData, requestText: e.target.value })
                 }
                 required
-                className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white"
+                 className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
               />
             </div>
 
@@ -122,7 +122,7 @@ export function AddRecordModal({
                     setFormData({ ...formData, requestDate: e.target.value })
                   }
                   required
-                  className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white"
+                  className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
                 />
               </div>
               <div className="space-y-2">
@@ -133,7 +133,7 @@ export function AddRecordModal({
                   onChange={(e) =>
                     setFormData({ ...formData, closureDate: e.target.value })
                   }
-                  className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white"
+                   className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
                 />
               </div>
             </div>
@@ -147,7 +147,7 @@ export function AddRecordModal({
                 }
                 required
                 rows={3}
-                className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white resize-none"
+                 className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
               />
             </div>
 
@@ -159,7 +159,7 @@ export function AddRecordModal({
                   setFormData({ ...formData, details: e.target.value })
                 }
                 rows={4}
-                className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200 bg-gradient-to-r from-gray-50 to-white resize-none"
+                 className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200  to-white"
               />
             </div>
 

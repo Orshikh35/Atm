@@ -1,10 +1,13 @@
 "use client";
+
 import { useState } from "react";
+import Image from "next/image";
 import { DataTable } from "@/components/data-table";
 import { AddRecordModal } from "@/components/add-record-modal";
 import { EditRecordModal } from "@/components/edit-record-modal";
 import { exportToWord } from "@/lib/export-word";
-import { Plus, Download, Activity } from 'lucide-react';
+import { Plus, Download, Activity } from "lucide-react";
+import Bg from "@/public/mountains-5819652.jpg";
 
 export interface ATM {
   id: string;
@@ -32,16 +35,12 @@ export default function Component() {
   };
 
   const handleEditRecord = (updatedRecord: ATM) => {
-    setRecords(
-      records.map((record) =>
-        record.id === updatedRecord.id ? updatedRecord : record
-      )
-    );
+    setRecords(records.map((r) => (r.id === updatedRecord.id ? updatedRecord : r)));
     setEditingRecord(null);
   };
 
   const handleDeleteRecord = (id: string) => {
-    setRecords(records.filter((record) => record.id !== id));
+    setRecords(records.filter((r) => r.id !== id));
   };
 
   const handleExportToWord = () => {
@@ -49,11 +48,22 @@ export default function Component() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
-      <div className="container mx-auto p-6 space-y-8">
-        {/* Header Section */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 p-8 text-white shadow-2xl">
-          <div className="absolute inset-0 bg-black/10"></div>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src={Bg}
+          alt="Background"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+      </div>
+
+      <div className="container mx-auto p-6 space-y-12 relative z-10 ">
+        {/* Header */}
+        <div className="relative overflow-hidden rounded-3xl  p-8 text-white shadow-2xl">
+          <div className="absolute inset-0 bg-black/40"></div>
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
@@ -63,12 +73,10 @@ export default function Component() {
                 ATM Тайлангийн Систем
               </h1>
             </div>
-            <p className="text-blue-100 text-lg">
+            <p className="text-blue-100 text-md">
               Системийн хүсэлт болон засварын мэдээллийг удирдах
             </p>
           </div>
-          <div className="absolute -top-4 -right-4 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-          <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-purple-400/20 rounded-full blur-2xl"></div>
         </div>
 
         {/* Action Buttons */}
@@ -82,10 +90,10 @@ export default function Component() {
               <div className="p-1 bg-white/20 rounded-lg">
                 <Plus className="h-5 w-5" />
               </div>
-              Шинэ бичлэг нэмэх
+              Шинэ тайлан нэмэх
             </div>
           </button>
-          
+
           <button
             onClick={handleExportToWord}
             disabled={records.length === 0}
@@ -101,8 +109,8 @@ export default function Component() {
           </button>
         </div>
 
-        {/* Data Table Section */}
-        <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/20">
+        {/* Table */}
+        <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/20">
           <DataTable
             records={records}
             onEdit={setEditingRecord}
@@ -111,6 +119,7 @@ export default function Component() {
         </div>
       </div>
 
+      {/* Modals */}
       <AddRecordModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}

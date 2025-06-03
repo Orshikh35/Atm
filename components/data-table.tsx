@@ -36,17 +36,17 @@ export function DataTable({ records, onEdit, onDelete }: DataTableProps) {
   }
 
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden ">
       {/* Desktop Table */}
       <div className="hidden lg:block overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
+            <tr className=" border-b-1 border-gray-800">
               <th className="text-left p-4 font-semibold text-gray-700">Төлөв</th>
-              <th className="text-left p-4 font-semibold text-gray-700">Инженер</th>
-              <th className="text-left p-4 font-semibold text-gray-700">Хүсэлт</th>
-              <th className="text-left p-4 font-semibold text-gray-700">Огноо</th>
-              <th className="text-left p-4 font-semibold text-gray-700">Хаалт</th>
+              <th className="text-left p-4 font-semibold text-gray-700">Хариуцсан инженер</th>
+              <th className="text-left p-4 font-semibold text-gray-700">Хүсэлт илгээсэн</th>
+              <th className="text-left p-4 font-semibold text-gray-700">Хүсэлт илгээсэн огноо</th>
+              <th className="text-left p-4 font-semibold text-gray-700">Хаагдсан огноо</th>
               <th className="text-left p-4 font-semibold text-gray-700">Тайлбар</th>
               <th className="text-right p-4 font-semibold text-gray-700">Үйлдэл</th>
             </tr>
@@ -55,8 +55,8 @@ export function DataTable({ records, onEdit, onDelete }: DataTableProps) {
             {records.map((record, index) => (
               <tr
                 key={record.id}
-                className={`border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 ${
-                  index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
+                className={`border-b border-gray-600  bg-gradient-to-br from-gray-200/40 to-gray-300/50  ${
+                  index % 2 === 0 ? "bg-transparent" : "bg-gray-50/50"
                 }`}
               >
                 <td className="p-4">
@@ -70,30 +70,28 @@ export function DataTable({ records, onEdit, onDelete }: DataTableProps) {
                 </td>
                 <td className="p-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
-                      <User className="h-4 w-4 text-white" />
-                    </div>
-                    <span className="font-medium text-gray-800">{record.engineer}</span>
+  
+                    <span className="font-medium ">{record.engineer}</span>
                   </div>
                 </td>
                 <td className="p-4 max-w-[200px]">
-                  <div className="truncate text-gray-700" title={record.requestText}>
+                  <div className="truncate " title={record.requestText}>
                     {record.requestText}
                   </div>
                 </td>
                 <td className="p-4">
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2 ">
                     <Calendar className="h-4 w-4" />
                     <span>{record.requestDate}</span>
                   </div>
                 </td>
                 <td className="p-4">
-                  <span className="text-gray-600">
+                  <span className="">
                     {record.closureDate || "Хаагдаагүй"}
                   </span>
                 </td>
                 <td className="p-4 max-w-[300px]">
-                  <div className="truncate text-gray-700" title={record.description}>
+                  <div className="truncate " title={record.description}>
                     {record.description}
                   </div>
                 </td>

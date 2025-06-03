@@ -103,7 +103,7 @@ export function exportToWord(records: ATM[]) {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `ATM_Тайлан_${new Date().toISOString().split("T")[0]}.doc`;
+  link.download = `Тайлан_${new Date().toISOString().split("T")[0]}.doc`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

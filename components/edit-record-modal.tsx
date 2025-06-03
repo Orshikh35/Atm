@@ -24,13 +24,6 @@ export function EditRecordModal({
     onEdit(formData);
     onClose();
   };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFormData({ ...formData, attachments: Array.from(e.target.files) });
-    }
-  };
-
   if (!isOpen) return null;
 
   return (

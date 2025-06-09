@@ -42,6 +42,7 @@ export function DataTable({ records, onEdit, onDelete }: DataTableProps) {
         <table className="w-full">
           <thead>
             <tr className=" border-b-1 border-gray-800">
+              <th className="text-left p-4 font-semibold text-gray-700">Киоск</th>
               <th className="text-left p-4 font-semibold text-gray-700">Төлөв</th>
               <th className="text-left p-4 font-semibold text-gray-700">Хариуцсан инженер</th>
               <th className="text-left p-4 font-semibold text-gray-700">Хүсэлт илгээсэн</th>
@@ -59,6 +60,7 @@ export function DataTable({ records, onEdit, onDelete }: DataTableProps) {
                   index % 2 === 0 ? "bg-transparent" : "bg-gray-50/50"
                 }`}
               >
+                <td className="p-4 font-medium">{record.kiosk}</td>
                 <td className="p-4">
                   <span
                     className={`px-3 py-2 rounded-xl text-xs font-semibold border ${getStatusColor(
@@ -148,6 +150,10 @@ export function DataTable({ records, onEdit, onDelete }: DataTableProps) {
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
+            </div>
+
+            <div className="text-sm font-semibold text-gray-800 mb-3">
+              {record.kiosk}
             </div>
             
             <div className="space-y-3">

@@ -5,12 +5,17 @@ import Image from "next/image";
 import { DataTable } from "@/components/data-table";
 import { AddRecordModal } from "@/components/add-record-modal";
 import { EditRecordModal } from "@/components/edit-record-modal";
+import { KioskDashboard } from "@/components/kiosk-dashboard";
 import { exportToWord } from "@/lib/export-word";
 import { Plus, Download, Activity } from "lucide-react";
 import Bg from "@/public/mountains-5819652.jpg";
 
 export interface ATM {
   id: string;
+  /**
+   * Name of the kiosk machine where the request originated.
+   */
+  kiosk: string;
   status: string;
   engineer: string;
   requestText: string;
@@ -78,6 +83,9 @@ export default function Component() {
             </p>
           </div>
         </div>
+
+        {/* Kiosk real-time dashboard */}
+        <KioskDashboard />
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4">

@@ -48,6 +48,22 @@ export function EditRecordModal({
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700">Киоск</label>
+                <select
+                  value={formData.kiosk}
+                  onChange={(e) =>
+                    setFormData({ ...formData, kiosk: e.target.value })
+                  }
+                  required
+                  className="w-full border-1 border-gray-800/60 px-4 py-3 rounded-xl transition-all duration-200"
+                >
+                  <option value="">Сонгоно уу</option>
+                  {Array.from({ length: 8 }).map((_, idx) => (
+                    <option key={idx} value={`Kiosk ${idx + 1}`}>{`Kiosk ${idx + 1}`}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700">Төлөв</label>
                 <select
                   value={formData.status}

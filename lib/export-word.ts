@@ -70,6 +70,7 @@ export function exportToWord(records: ATM[]) {
             <table>
               <tr>
                 <td class="left">
+                  <div class="field"><span class="label">Киоск:</span> ${r.kiosk}</div>
                   <div class="field"><span class="label">Төлөв:</span> ${r.status}</div>
                   <div class="field"><span class="label">Хариуцсан инженер:</span> ${r.engineer}</div>
                   <div class="field"><span class="label">Хүсэлт илгээсэн:</span> ${r.requestText}</div>

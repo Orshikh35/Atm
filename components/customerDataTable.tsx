@@ -15,7 +15,7 @@ import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, Chevro
 import Modal from "./ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { exportToWord } from "@/lib/export-word";
+
 
 interface BaseData {
   id: number;

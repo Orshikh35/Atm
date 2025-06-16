@@ -1,18 +1,14 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import React, {  useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import DataTable from "@/components/customerDataTable";
 import { toast } from "sonner";
-import { DeleteDialog } from "@/components/ui/deleteModal";
 import dayjs from "dayjs";
 import { ATM } from "@/types/request";
 
 function Page() {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState<ATM>({
     atm_id: 0,
     atm_name: "",
@@ -31,7 +27,6 @@ function Page() {
   useEffect(() => {
     const fetchAtmData = async () => {
       try {
-        setLoading(true);
         const response = await fetch("/api/atm");    
         if (!response.ok) throw new Error("Серверээс алдаа ирлээ");
   
@@ -41,7 +36,6 @@ function Page() {
         console.error("Алдаа:", error);
         toast.error("Мэдээлэл ачаалахад алдаа гарлаа");
       } finally {
-        setLoading(false);
       }
     };
   
@@ -128,26 +122,9 @@ function Page() {
   };
 
   const handleDelete = (id: number) => {
-    setIsDeleteOpen(true);
     setFormData(data.find(item => item.atm_id === id));
   };
 
-  const confirmDelete = async () => {
-    try {
-      const response = await fetch(`/api/atm/${formData.atm_id}`, {
-        method: "DELETE",
-      });
-      
-      if (!response.ok) throw new Error("Устгахад алдаа гарлаа");
-      
-      toast.success("Амжилттай устгагдлаа");
-      setData(data.filter(item => item.atm_id !== formData.atm_id));
-      setIsDeleteOpen(false);
-    } catch (error) {
-      console.error("Алдаа:", error);
-      toast.error("Устгахад алдаа гарлаа");
-    }
-  };
 
   const handleUpdate = async (id: number, formData: ATM) => {
     try {

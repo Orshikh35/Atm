@@ -1,4 +1,4 @@
-import type { ATM } from "@/app/page";
+import type { ATM } from "@/types/request";
 
 export function exportToWord(records: ATM[]) {
   const htmlContent = `

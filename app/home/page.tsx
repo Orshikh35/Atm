@@ -1,5 +1,5 @@
 "use client";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import DataTable from "@/components/fixDataTable";
 import { toast } from "sonner";
@@ -10,22 +10,21 @@ function Page() {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
   const [formData, setFormData] = useState<any>({
-      deviceName: "",
-      serialNumber: "",
-      model: "",
-      deviceType: 0,
-      status: 0,
-      ip: "",
-      port: 0,
-      location: "",
-      province: "",
-      masterkey: "",
-      installationDate: "",
-      expiredDate: "",
-      ownerId: 0,
-      orgName: ""
+    deviceName: "",
+    serialNumber: "",
+    model: "",
+    deviceType: 0,
+    status: 0,
+    ip: "",
+    port: 0,
+    location: "",
+    province: "",
+    masterkey: "",
+    installationDate: "",
+    expiredDate: "",
+    ownerId: 1,
+    orgName: ""
   });
-
   useEffect(() => {
     const fetchAtmData = async () => {
       try {
@@ -36,23 +35,22 @@ function Page() {
             headers: {
               "Content-Type": "application/json",
             },
-          } 
+          }
         );
 
         if (!response.ok) throw new Error("Серверээс алдаа ирлээ");
-  
+
         const json = await response.json();
-        setData(json);                     
+        setData(json);
       } catch (error) {
         console.error("Алдаа:", error);
         toast.error("Мэдээлэл ачаалахад алдаа гарлаа");
-      } finally {
       }
     };
-  
+
     fetchAtmData();
   }, []);
-    
+
   useEffect(() => {
     if (data.length > 0 && columns.length === 0) {
       setColumns(generateColumnsFromData(data));
@@ -99,39 +97,39 @@ function Page() {
         <label className="text-sm font-medium text-gray-600">Төхөөрөмжийн нэр</label>
         <input
           type="text"
-          value={formData.deviceName}
+          value={formData.deviceName ?? ""}
           onChange={(e) => setFormData({ ...formData, deviceName: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Serial Number */}
       <div>
         <label className="text-sm font-medium text-gray-600">Сериал дугаар</label>
         <input
           type="text"
-          value={formData.serialNumber}
+          value={formData.serialNumber ?? ""}
           onChange={(e) => setFormData({ ...formData, serialNumber: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Model */}
       <div>
         <label className="text-sm font-medium text-gray-600">Загвар</label>
         <input
           type="text"
-          value={formData.model}
+          value={formData.model ?? ""}
           onChange={(e) => setFormData({ ...formData, model: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Device Type */}
       <div>
         <label className="text-sm font-medium text-gray-600">Төхөөрөмжийн төрөл</label>
         <select
-          value={formData.deviceType}
+          value={formData.deviceType ?? 0}
           onChange={(e) => setFormData({ ...formData, deviceType: parseInt(e.target.value) })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         >
@@ -140,154 +138,183 @@ function Page() {
           <option value={2}>POS</option>
         </select>
       </div>
-  
+
       {/* Status */}
       <div>
         <label className="text-sm font-medium text-gray-600">Төлөв</label>
         <select
-          value={formData.status}
-          onChange={(e) => setFormData({ ...formData, status: parseInt(e.target.value) })}
+          value={formData.status ?? 0}
+          onChange={(e) => setFormData({ ...formData, status: parseInt(e.target.value )})}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         >
           <option value={0}>Идэвхтэй</option>
           <option value={1}>Идэвхгүй</option>
         </select>
       </div>
-  
+
       {/* IP */}
       <div>
         <label className="text-sm font-medium text-gray-600">IP хаяг</label>
         <input
           type="text"
-          value={formData.ip}
+          value={formData.ip ?? ""}
           onChange={(e) => setFormData({ ...formData, ip: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Port */}
       <div>
         <label className="text-sm font-medium text-gray-600">Порт</label>
         <input
           type="number"
           value={formData.port}
-          onChange={(e) => setFormData({ ...formData, port: parseInt(e.target.value) })}
+          onChange={(e) => {
+            const val = e.target.value;
+            setFormData({ ...formData, port: val === "" ? "" : parseInt(val) });
+          }}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Location */}
       <div>
         <label className="text-sm font-medium text-gray-600">Байршил</label>
         <input
           type="text"
-          value={formData.location}
+          value={formData.location ?? ""}
           onChange={(e) => setFormData({ ...formData, location: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Province */}
       <div>
         <label className="text-sm font-medium text-gray-600">Аймаг / Хот</label>
         <input
           type="text"
-          value={formData.province}
+          value={formData.province ?? ""}
           onChange={(e) => setFormData({ ...formData, province: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Master Key */}
       <div>
         <label className="text-sm font-medium text-gray-600">Master Key</label>
         <input
           type="text"
-          value={formData.masterke}
-          onChange={(e) => setFormData({ ...formData, masterke: e.target.value })}
+          value={formData.masterkey ?? ""}
+          onChange={(e) => setFormData({ ...formData, masterkey: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Installation Date */}
       <div>
         <label className="text-sm font-medium text-gray-600">Суулгасан огноо</label>
         <input
           type="date"
-          value={formData.installationDate}
+          value={formData.installationDate ?? ""}
           onChange={(e) => setFormData({ ...formData, installationDate: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Expired Date */}
       <div>
         <label className="text-sm font-medium text-gray-600">Дуусах огноо</label>
         <input
           type="date"
-          value={formData.expiredDate}
+          value={formData.expiredDate ?? ""}
           onChange={(e) => setFormData({ ...formData, expiredDate: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Owner ID */}
       <div>
         <label className="text-sm font-medium text-gray-600">Эзэмшигч ID</label>
         <input
           type="number"
           value={formData.ownerId}
-          onChange={(e) => setFormData({ ...formData, ownerId: parseInt(e.target.value) })}
+          onChange={(e) => {
+            const val = e.target.value;
+            setFormData({ ...formData, ownerId: val === "" ? "" : parseInt(val) });
+          }}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
-  
+
       {/* Organization Name */}
       <div>
         <label className="text-sm font-medium text-gray-600">Байгууллага</label>
         <input
           type="text"
-          value={formData.orgName}
+          value={formData.orgName ?? ""}
           onChange={(e) => setFormData({ ...formData, orgName: e.target.value })}
           className="w-full px-3 py-2 border border-gray-300 rounded-md"
         />
       </div>
     </div>
   );
-  
-
 
   const handleSave = async () => {
     try {
+      // formData-д заавал байх ёстой бүх талбаруудыг үүсгэнэ
+      const payload = {
+        deviceName: formData.deviceName || "",
+        serialNumber: formData.serialNumber || "",
+        model: formData.model || "",
+        deviceType: formData.deviceType ?? 0,  // default 0
+        status: formData.status ?? 0,          // default 0
+        ip: formData.ip || "",
+        port: formData.port ?? 0,
+        location: formData.location || "",
+        province: formData.province || "",
+        masterkey: formData.masterkey || "",
+        installationDate: formData.installationDate || null,
+        expiredDate: formData.expiredDate || null,
+        ownerId: formData.ownerId ?? 0,
+        orgName: formData.orgName || ""
+      };
+  
+      console.log("Sending payload:", payload);
+  
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
-  console.log(response);
   
-      if (!response.ok) throw new Error("Шинээр хадгалах үед алдаа гарлаа");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => null);
+        console.error("Server error response:", errorData);
+        throw new Error("Шинээр хадгалах үед алдаа гарлаа");
+      }
   
       const newItem = await response.json();
       toast.success("Амжилттай хадгалагдлаа");
       setData(prev => [...prev, newItem]);
+  
+      // formData-г анхны утгад буцаах
       setFormData({
         deviceName: "",
-      serialNumber: "",
-      model: "",
-      deviceType: 0,
-      status: 0,
-      ip: "",
-      port: 0,
-      location: "",
-      province: "",
-      masterkey: "",
-      installationDate: "",
-      expiredDate: "",
-      ownerId: 0,
-      orgName: ""
+        serialNumber: "",
+        model: "",
+        deviceType: 0,
+        status: 0,
+        ip: "",
+        port: 0,
+        location: "",
+        province: "",
+        masterkey: "",
+        installationDate: "",
+        expiredDate: "",
+        ownerId: 1,
+        orgName: ""
       });
     } catch (error) {
       console.error("Алдаа:", error);
@@ -298,7 +325,7 @@ function Page() {
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm("Та энэ төхөөрөмжийг устгахдаа итгэлтэй байна уу?");
     if (!confirmed) return;
-  
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/${id}`, {
         method: "DELETE",
@@ -306,9 +333,9 @@ function Page() {
           "Content-Type": "application/json",
         },
       });
-  
+
       if (!response.ok) throw new Error("Устгах үед алдаа гарлаа");
-  
+
       toast.success("Амжилттай устгагдлаа");
       setData((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
@@ -316,7 +343,6 @@ function Page() {
       toast.error("Устгах үед алдаа гарлаа");
     }
   };
-  
 
   const handleUpdate = async (id: number, formData: ATM) => {
     try {
@@ -327,9 +353,9 @@ function Page() {
         },
         body: JSON.stringify(formData),
       });
-      
+
       if (!response.ok) throw new Error("Шинэчлэхэд алдаа гарлаа");
-      
+
       toast.success("Амжилттай шинэчлэгдлээ");
       setData(data.map(item => item.atm_id === id ? formData : item));
     } catch (error) {
@@ -340,20 +366,19 @@ function Page() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 pt-22 px-20">
-          {/* DataTable */}
-          <div className="">
-            <DataTable
-              onDelete={handleDelete}
-              data={[...data].reverse()}
-              columns={columns}
-              onSave={handleSave}
-              modalData={modalData}
-              formData={formData}
-              setFormData={setFormData}
-              title={"Төхөөрөмж"}
-              onUpdate={handleUpdate}
-            />
-          </div>
+      <div className="">
+        <DataTable
+          onDelete={handleDelete}
+          data={[...data].reverse()}
+          columns={columns}
+          onSave={handleSave}
+          modalData={modalData}
+          formData={formData}
+          setFormData={setFormData}
+          title={"Төхөөрөмж"}
+          onUpdate={handleUpdate}
+        />
+      </div>
     </div>
   );
 }

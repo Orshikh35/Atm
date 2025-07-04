@@ -5,6 +5,11 @@ interface BaseData {
 
 
 export function exportToWord(records: Reports[]) {
+    const currentDate = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -62,9 +67,43 @@ export function exportToWord(records: Reports[]) {
           border-left: 4px solid #007acc;
           background-color: #f9f9f9;
         }
+            .title-page .company {
+          position: absolute;
+          right: 50px;
+          font-size: 14px;
+          color: #4472C4;
+          font-weight: bold;
+        }
+            .title-page .date {
+            padding-top: 120px;
+          position: absolute;
+          right: 50px;
+          font-size: 12px;
+          color: #4472C4;
+          font-weight: bold;
+        }
+             .title-page {
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          page-break-after: always;
+          border: 2px solid #4472C4;
+          padding: 40px;
+          margin: 0;
+        }
       </style>
     </head>
     <body>
+
+     <div class="title-page">
+        <h1>ATM-ийн Техник болон Програм<br>хангамжийн засвар үйлчилгээний тайлан</h1>
+        <div class="date">${currentDate.toUpperCase()}</div>
+        <div class="company">NEW COMPASS LLC</div>
+      </div>
+      </div>
       <h1>Бүх GRG АТМ-ууд</h1>
 
       ${records

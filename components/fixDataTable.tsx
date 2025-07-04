@@ -33,6 +33,7 @@ interface DataTableProps<TData extends BaseData> {
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   onDelete: (id: number) => void;
+  title: string;
   onUpdate: (id: number, formData: any) => Promise<void>;
 }
 
@@ -45,6 +46,7 @@ export default function DataTable<TData extends BaseData>({
   setFormData,
   onDelete,
   onUpdate,
+  title,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -112,11 +114,9 @@ export default function DataTable<TData extends BaseData>({
       {/* Header Section */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-          <div className="flex gap-4">
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors border border-blue-100">ATM</button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-100  text-blue-600 rounded-lg text-sm font-medium transition-colors border border-blue-100">Kiosk</button>
-            <button className="flex items-center gap-2 px-4 py-2 bg-blue-100  text-blue-600 rounded-lg text-sm font-medium transition-colors border border-blue-100">MIDDLE 🖕</button>
-          </div>
+        <h2 className="text-xl font-semibold text-gray-800">
+          {title}
+        </h2>
           
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="relative">

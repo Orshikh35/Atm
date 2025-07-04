@@ -25,9 +25,9 @@ const Modal = ({ isOpen, onClose, onSave, modalData, title }: ModalProps) => {
           </button>
           <button
             onClick={onSave}
-            className={`px-4 py-2 bg-blue-600 text-white rounded   opacity-50 cursor-not-allowed : ""}`}
+            className="px-4 py-2 bg-blue-600 text-white rounded"
           >
-            Илгээх
+            Нэмэх
           </button>
         </div>
       </div>

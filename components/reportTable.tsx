@@ -15,7 +15,7 @@ import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, Chevro
 import Modal from "./ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
+import { exportToWord } from "@/lib/export-word";
 
 interface BaseData {
   id: number;
@@ -73,7 +73,6 @@ export default function DataTable<TData extends BaseData>({
     setIsModalOpen(true);
   };
 
-
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
@@ -86,6 +85,10 @@ export default function DataTable<TData extends BaseData>({
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     saveAs(dataBlob, "table_data.xlsx");
+  };
+
+  const handleExportToWord = () => {
+    exportToWord(data as any); // Cast to any since your exportToWord expects Reports[]
   };
 
   return (
@@ -110,13 +113,13 @@ export default function DataTable<TData extends BaseData>({
             </div>
             
             <div className="flex gap-3">
-            {/* <button
-                onClick={exportToExcel}
+              <button
+                onClick={handleExportToWord}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-medium transition-colors border border-blue-100"
               >
                 <Download size={16} />
                 <span>Word</span>
-              </button> */}
+              </button>
               <button
                 onClick={exportToExcel}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-green-600 rounded-lg text-sm font-medium transition-colors border border-green-300"
@@ -244,6 +247,7 @@ export default function DataTable<TData extends BaseData>({
           </div>
         </div>
       </div>
+
     </div>
   );
 }

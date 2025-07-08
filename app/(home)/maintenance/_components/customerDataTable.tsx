@@ -11,7 +11,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
-import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, ChevronRight, Notebook } from "lucide-react";
 import Modal from "../../../../components/ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -158,6 +158,13 @@ export default function DataTable<TData extends BaseData>({
                       title="Засах"
                     >
                       <Edit3 size={16} />
+                    </button>
+                    <button
+                      onClick={() => handleEdit(row.original)}
+                      className="p-1.5 text-orange-600 "
+                      title="Засах"
+                    >
+                      <Notebook size={16} />
                     </button>
                     <button
                       onClick={() => onDelete(row.original.id)}

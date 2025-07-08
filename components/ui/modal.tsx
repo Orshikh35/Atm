@@ -10,29 +10,41 @@ interface ModalProps {
 
 const Modal = ({ isOpen, onClose, onSave, modalData, title }: ModalProps) => {
   if (!isOpen) return null;
+
   return (
-    <div className="fixed inset-0 bg-gray-900/80 flex justify-center items-center z-50">
-      <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-md w-auto max-h-[80vh] overflow-y-auto">
-        <p className="w-full flex justify-center items-center dark:text-white font-medium text-[24px]">{title}</p>
-        <div>{modalData()}</div>
-        <div className="flex gap-3 mt-4 w-full justify-center items-center">
-         
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-500 text-white rounded"
-          >
-            Болих
-          </button>
-          <button
-            onClick={onSave}
-            className="px-4 py-2 bg-blue-600 text-white rounded"
-          >
-            Нэмэх
-          </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+      <div className="relative w-full max-w-4xl mx-4 bg-gradient-to-br from-[#2c3e50] to-[#1a1a1a] rounded-2xl shadow-[0_0_40px_rgba(255,123,0,0.3)] border border-orange-600/20 p-[2px]">
+        <div className="bg-[#1a1a1a]/90 rounded-2xl backdrop-blur-lg p-6 overflow-y-auto max-h-[80vh]">
+          {/* Title */}
+          <h2 className="text-xl font-semibold text-white mb-4 text-center">{title}</h2>
+
+          {/* Modal Body */}
+          <div>{modalData()}</div>
+
+          {/* Buttons */}
+          <div className="flex gap-4 mt-6 justify-center">
+            <button
+              onClick={onClose}
+              className="px-5 py-2 rounded-xl bg-gray-700 text-white hover:bg-gray-600 transition duration-200 shadow-md"
+            >
+              Болих
+            </button>
+            <button
+              onClick={onSave}
+              className="px-6 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-orange-600 text-white font-semibold hover:opacity-90 shadow-lg transition duration-200"
+            >
+              Нэмэх
+            </button>
+          </div>
         </div>
+
+        {/* Bubble effects (optional) */}
+        <div className="absolute -top-20 -left-20 w-40 h-40 bg-orange-500 rounded-full opacity-30 blur-2xl " />
+        <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-yellow-400 rounded-full opacity-20 blur-2xl " />
       </div>
     </div>
   );
 };
+
 
 export default Modal;

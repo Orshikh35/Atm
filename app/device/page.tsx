@@ -6,9 +6,15 @@ import { toast } from "sonner";
 import dayjs from "dayjs";
 import { ATM } from "@/types/request";
 import modalData from "./_components/modal";
+import { Search, Download, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import exportToExcel from "@/components/exportToExcel";
+import { get } from "http";
+import { getDevices } from "@/action/device";
 
 function Page() {
   const [data, setData] = useState<any[]>([]);
+  console.log("Data:", data);
+  
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
   const [formData, setFormData] = useState<any>({
     deviceName: "",
@@ -26,30 +32,24 @@ function Page() {
     ownerId: 1,
     orgName: ""
   });
+  
+  // DataTable компонентод дамжуулах state-ууд
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const fetchAtmData = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) throw new Error("Серверээс алдаа ирлээ");
-
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.error("Алдаа:", error);
-        toast.error("Мэдээлэл ачаалахад алдаа гарлаа");
+    const res = await getDevices();
+    console.log("Fetched ATM data:", res);
+    
+      if (res) {
+        setData(res);
+      } else {
+        toast.error("ATM төхөөрөмжийн мэдээлэл авахад алдаа гарлаа");
+        console.error("Error fetching ATM data:", res.message);
       }
     };
-
     fetchAtmData();
   }, []);
 
@@ -68,7 +68,7 @@ function Page() {
       return {
         accessorKey: key,
         header: () => (
-          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <span className="text-xs font-medium text-white uppercase tracking-wider ">
             {key.replace('atm_', '').replace(/([A-Z])/g, ' $1').trim()}
           </span>
         ),
@@ -78,7 +78,7 @@ function Page() {
 
           if (isDateField) {
             return (
-              <span className="text-sm text-gray-600">
+              <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">
                 {dayjs(value).isValid()
                   ? dayjs(value).format("YYYY-MM-DD")
                   : value}
@@ -86,22 +86,20 @@ function Page() {
             );
           }
 
-          return <span className="text-sm text-gray-800">{value.toString()}</span>;
+          return <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">{value.toString()}</span>;
         },
       };
     });
   };
 
-
   const handleSave = async () => {
     try {
-      // formData-д заавал байх ёстой бүх талбаруудыг үүсгэнэ
       const payload = {
         deviceName: formData.deviceName || "",
         serialNumber: formData.serialNumber || "",
         model: formData.model || "",
-        deviceType: formData.deviceType ?? 0,  // default 0
-        status: formData.status ?? 0,          // default 0
+        deviceType: formData.deviceType ?? 0,
+        status: formData.status ?? 0,
         ip: formData.ip || "",
         port: formData.port ?? 0,
         location: formData.location || "",
@@ -112,9 +110,9 @@ function Page() {
         ownerId: formData.ownerId ?? 0,
         orgName: formData.orgName || ""
       };
-  
+
       console.log("Sending payload:", payload);
-  
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices`, {
         method: "POST",
         headers: {
@@ -122,18 +120,17 @@ function Page() {
         },
         body: JSON.stringify(payload),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
         console.error("Server error response:", errorData);
         throw new Error("Шинээр хадгалах үед алдаа гарлаа");
       }
-  
+
       const newItem = await response.json();
       toast.success("Амжилттай хадгалагдлаа");
       setData(prev => [...prev, newItem]);
-  
-      // formData-г анхны утгад буцаах
+
       setFormData({
         deviceName: "",
         serialNumber: "",
@@ -155,7 +152,7 @@ function Page() {
       toast.error("Хадгалах үед алдаа гарлаа");
     }
   };
-  
+
   const handleDelete = async (id: number) => {
     const confirmed = window.confirm("Та энэ төхөөрөмжийг устгахдаа итгэлтэй байна уу?");
     if (!confirmed) return;
@@ -180,7 +177,7 @@ function Page() {
 
   const handleUpdate = async (id: number, formData: ATM) => {
     try {
-      const response = await fetch(`/api/atm/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -191,30 +188,100 @@ function Page() {
       if (!response.ok) throw new Error("Шинэчлэхэд алдаа гарлаа");
 
       toast.success("Амжилттай шинэчлэгдлээ");
-      setData(data.map(item => item.atm_id === id ? formData : item));
+      setData(prevData => 
+        prevData.map(item => item.id === id ? { ...item, ...formData } : item)
+      );
     } catch (error) {
       console.error("Алдаа:", error);
       toast.error("Шинэчлэхэд алдаа гарлаа");
     }
   };
 
-  return (
 
-      <div className="">
-        <DataTable
-          onDelete={handleDelete}
-          data={[...data].reverse()}
-          columns={columns}
-          onSave={handleSave}
-          modalData={modalData}
-          formData={formData}
-          setFormData={setFormData}
-          title={"Төхөөрөмж"}
-          onUpdate={handleUpdate}
-        />
+ 
+  return (
+    <div className="">
+      <div className="py-6 ">
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+          <h2 className="text-xl font-semibold text-white">
+            Төхөөрөмжийн жагсаалт
+          </h2>
+          
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <div className="w-64 pl-10 pr-4 py-2 border border-gray-100/20 rounded-lg  text-sm text-white placeholder-gray-400 relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                type="text"
+                placeholder="Хайх..."
+                className="border-none outline-none"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+            </div>
+            
+            <div className="flex gap-3">
+              <button
+           onClick={() => exportToExcel(data, "devices_data.xlsx")}
+
+                className="flex items-center gap-2 px-4 py-2 text-orange-500 rounded-lg text-sm font-medium transition-colors border border-orange-500"
+              >
+                <Download size={16} />
+                <span>Excel</span>
+              </button>
+              
+              <button
+                onClick={() => {
+                  setIsModalOpen(true);
+                  setIsEditMode(false);
+                  setFormData({
+                    deviceName: "",
+                    serialNumber: "",
+                    model: "",
+                    deviceType: 0,
+                    status: 0,
+                    ip: "",
+                    port: 0,
+                    location: "",
+                    province: "",
+                    masterkey: "",
+                    installationDate: "",
+                    expiredDate: "",
+                    ownerId: 1,
+                    orgName: ""
+                  });
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                <Plus size={16} />
+                <span>Шинэ</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
+      <DataTable
+        onDelete={handleDelete}
+        data={[...data].reverse()}
+        columns={columns}
+        onSave={handleSave}
+        modalData={modalData}
+        formData={formData}
+        setFormData={setFormData}
+        title={"Төхөөрөмж"}
+        onUpdate={handleUpdate}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        isEditMode={isEditMode}
+        setIsEditMode={setIsEditMode}
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        exportToExcel={() => exportToExcel(data, "devices_data.xlsx")}
+      />
+           
+      
+    </div>
   );
 }
 
-export default Page;
+export default Page

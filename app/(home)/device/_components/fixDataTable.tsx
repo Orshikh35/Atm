@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
 import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
-import Modal from "../../../components/ui/modal";
+import Modal from "../../../../components/ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -175,7 +175,6 @@ export default function DataTable<TData extends BaseData>({
           <Search size={24} className="text-white" />
         </div>
         <h3 className="text-lg font-medium text-white mb-1">Мэдээлэл олдсонгүй</h3>
-        <p className="text-white text-sm">Шинэ мэдээлэл нэмж эхлээрэй</p>
       </div>
     )}
   </div>

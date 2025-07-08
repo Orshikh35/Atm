@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import DataTable from "../_components/fixDataTable";
+import DataTable from "./fixDataTable";
 import { toast } from "sonner";
 import dayjs from "dayjs";
 import { ATM } from "@/types/request";
 import modalData from "./modal";
 import { Search, Download, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import exportToExcel from "@/components/exportToExcel";
-import { getDevices } from "@/action/device";
+import {  getDevicesATM, getDevicesKiosk } from "@/action/device";
 
-function Atm() {
+function Kiosk() {
   const [data, setData] = useState<any[]>([]);
   console.log("Data:", data);
   
@@ -39,7 +39,7 @@ function Atm() {
 
   useEffect(() => {
     const fetchAtmData = async () => {
-    const res = await getDevices();
+    const res = await getDevicesKiosk();
     console.log("Fetched ATM data:", res);
     
       if (res) {
@@ -203,7 +203,7 @@ function Atm() {
       <div className="py-6 ">
         <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
           <h2 className="text-xl font-semibold text-gray-100/50">
-            ATM жагсаалт
+            Kiosk жагсаалт
           </h2>
           
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -283,4 +283,4 @@ function Atm() {
   );
 }
 
-export default Atm
+export default Kiosk

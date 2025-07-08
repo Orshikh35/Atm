@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Folder } from "lucide-react";
 import Atm from "./atm";
 import Kiosk from "./kiosk";
+import Other from "./other";
 function Header() {
   const navItems = [
     {
@@ -18,9 +19,9 @@ function Header() {
       icon: <Folder size={18} />,
     },
     {
-      label: "idk",
+      label: "Бусад",
       key: "idk",
-      component: <Atm />,
+      component: <Other />,
       icon: <Folder size={18} />,
     }
   ];

@@ -4,7 +4,7 @@ interface BaseData {
   }
 
 
-export function exportToWord(records: Reports[]) {
+export function exportToWord(records: Reports[], p0: string) {
     const currentDate = new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',

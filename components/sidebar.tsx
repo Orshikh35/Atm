@@ -17,7 +17,7 @@ function Sidebar() {
   const navItems = [
     {
       label: "Нүүр",
-      href: "/",
+      href: "/dashboard",
       icon: <Home size={18} />,
     },
     {

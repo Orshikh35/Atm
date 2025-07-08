@@ -14,13 +14,13 @@ function Header() {
     {
       label: "Kiosk",
       key: "kiosk",
-      component: <Kiosk />,
+      component: "",
       icon: <Folder size={18} />,
     },
     {
       label: "idk",
       key: "idk",
-      component: <Atm />,
+      component:"",
       icon: <Folder size={18} />,
     }
   ];

@@ -12,10 +12,9 @@ import {
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
 import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
-import Modal from "../../../components/ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
+import { exportToWord } from "@/lib/export-word";
 
 interface BaseData {
   id: number;
@@ -24,44 +23,21 @@ interface BaseData {
 interface DataTableProps<TData extends BaseData> {
   data: TData[];
   columns: ColumnDef<TData, any>[];
-  onSave: (formData: any) => Promise<void>;
-  modalData: (
-    formData: any,
-    setFormData: React.Dispatch<React.SetStateAction<any>>,
-    isEditMode: boolean
-  ) => JSX.Element;
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
-  onDelete: (id: number) => void;
-  onUpdate: (id: number, formData: any) => Promise<void>;
-    isModalOpen: boolean;
-    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    isEditMode: boolean;
-    setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
-    inputValue: string;
-    setInputValue: React.Dispatch<React.SetStateAction<string>>;
-    exportToExcel: () => void;
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+  exportToExcel: () => void;
+  exportToWord: () => void;
 }
 
 export default function DataTable<TData extends BaseData>({
   data,
   columns,
-  onSave,
-  modalData,
-  formData,
-  setFormData,
-  onDelete,
-  onUpdate,
-  isModalOpen,
-  setIsModalOpen,
-  isEditMode,
-  setIsEditMode,
   inputValue,
   setInputValue,
   exportToExcel,
+  exportToWord
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [editId, setEditId] = useState<number | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
 
 
@@ -87,24 +63,6 @@ export default function DataTable<TData extends BaseData>({
     },
   });
 
-  const handleEdit = (rowData: TData) => {
-    setIsEditMode(true);
-    setEditId(rowData.id);
-    setFormData(rowData);
-    setIsModalOpen(true);
-  };
-
-  const handleModalSave = async () => {
-    if (isEditMode && editId !== null) {
-      await onUpdate(editId, formData);
-    } else {
-      await onSave(formData);
-    }
-    setIsModalOpen(false);
-    setIsEditMode(false);
-    setEditId(null);
-  };
-
   return (
     <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl bg-[#1a1a1a] shadow-sm border border-[#2a2a2a] w-full p-1">
 
@@ -122,24 +80,17 @@ export default function DataTable<TData extends BaseData>({
                   className="px-4 py-3 text-left font-medium text-gray-500 uppercase text-xs"
                 >
                   <button
-                    onClick={() =>
-                      header.column.toggleSorting(header.column.getIsSorted() === "asc")
-                    }
                     className="flex items-center gap-1 hover:text-blue-600 transition-colors"
                   >
                     {flexRender(header.column.columnDef.header, header.getContext())}
-                    <ArrowUpDown size={12} className="text-gray-400" />
                   </button>
                 </th>
               ))}
-              <th className="px-4 py-3 text-right font-medium text-gray-500 uppercase text-xs w-24">
-                Үйлдэл
-              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#2a2a2a]">
             {table.getRowModel().rows.map((row, index) => (
-            <tr key={row.id} className="hover:bg-[#2c2c2c]">
+             <tr key={row.id} className="hover:bg-[#2c2c2c]">
                 <td className="px-4 py-3 text-gray-500 text-sm text-center">
                   {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + index + 1}
                 </td>
@@ -150,24 +101,6 @@ export default function DataTable<TData extends BaseData>({
                     </div>
                   </td>
                 ))}
-                <td className="px-4 py-3 text-right">
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => handleEdit(row.original)}
-                      className="p-1.5 text-blue-600 "
-                      title="Засах"
-                    >
-                      <Edit3 size={16} />
-                    </button>
-                    <button
-                      onClick={() => onDelete(row.original.id)}
-                      className="p-1.5 text-red-600"
-                      title="Устгах"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                </td>
               </tr>
             ))}
           </tbody>
@@ -183,14 +116,6 @@ export default function DataTable<TData extends BaseData>({
           </div>
         )}
       </div>
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleModalSave}
-        modalData={() => modalData(formData, setFormData, isEditMode)}
-        title={isEditMode ? "Засах" : ""}
-      />
     </div>
   );
 }

@@ -111,7 +111,6 @@ export default function DataTable<TData extends BaseData>({
 
   return (
     <div className="flex flex-col h-full bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden  w-full">
-      {/* Header Section */}
       <div className="p-6 border-b border-gray-100">
         <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
         <h2 className="text-xl font-semibold text-gray-800">

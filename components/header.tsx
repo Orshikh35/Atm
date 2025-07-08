@@ -1,55 +1,96 @@
 "use client";
 import React from "react";
-import {  ChevronDown } from "lucide-react";
+import {
+  ChevronRight,
+  Home,
+  Users,
+  FileText,
+  Wrench,
+  Laptop
+} from "lucide-react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
-function Header() {
+function Sidebar() {
+  const pathname = usePathname();
+
+  const navItems = [
+    {
+      label: "Нүүр",
+      href: "/",
+      icon: <Home size={18} />,
+    },
+    {
+      label: "Төхөөрөмж",
+      href: "/device",
+      icon: <Laptop size={18} />,
+    },
+    {
+      label: "Засвар үйлчилгээ",
+      href: "/maintenance",
+      icon: <Wrench size={18} />,
+    },
+    {
+      label: "Тайлан",
+      href: "/reports",
+      icon: <FileText size={18} />,
+    },
+    {
+      label: "Ажилчид",
+      href: "/employees",
+      icon: <Users size={18} />,
+    },
+  ];
+
+  // Active эсэхийг шалгах функц
+  const isActiveRoute = (href: string) => {
+    if (href === "/") {
+      // Root зам нь зөвхөн яг "/" үед л active болно
+      return pathname === "/";
+    }
+    // Бусад замууд нь тухайн замаар эхлэх үед active болно
+    return pathname.startsWith(href);
+  };
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-white/70 border-b border-white/30 shadow-sm px-20">
-      <div className="w-full h-16 flex justify-between items-center px-6">
-        {/* Logo/Branding */}
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-sm">
-            <span className="text-white font-semibold text-sm">A</span>
-          </div>
-          <h1 className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            ATM System
-          </h1>
+    <aside className="w-80 h-screen bg-[#181719] text-gray-400 flex flex-col justify-between py-6">
+      <div>
+        <div className="flex items-center gap-2 px-6 mb-10">
+          <h1 className="text-lg font-semibold text-orange-600">ATM System</h1>
         </div>
-        
-        {/* Navigation */}
-        <nav className="hidden md:flex gap-16 items-center h-full px-4">
-          <a href="home" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors relative group">
-            <span>Төхөөрөмж</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="maintenance" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors relative group">
-            <span>Засвар үйлчилгээ</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="reports" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors relative group">
-            <span>Тайлан</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-          <a href="#" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors relative group">
-            <span>Ажилчид</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full"></span>
-          </a>
-        
+        <nav className="flex flex-col gap-3 mt-4">
+          {navItems.map((item) => {
+            const isActive = isActiveRoute(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-3 px-4 py-3 relative transition
+                  ${isActive ? "bg-[#2c2c2d] text-white" : "hover:bg-[#212123]"}
+                `}
+              >
+                {isActive && (
+                  <span className="absolute right-0 top-0 bottom-0 w-[2px] bg-orange-600" />
+                )}
+                {item.icon}
+                <span className="text-[16px] font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
-        
-        {/* User Controls */}
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 pl-2">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center shadow-sm">
-              <span className="text-white font-medium text-xs">БО</span>
-            </div>
-            <span className="hidden md:inline text-sm font-medium text-gray-700">Б.Орших</span>
-            <ChevronDown className="w-4 h-4 text-gray-500" />
-          </div>
-        </div>
       </div>
-    </header>
+      <div className="flex items-center gap-3 px-4 mt-10">
+        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+          <span className="text-white font-semibold text-sm">B</span>
+        </div>
+        <div className="flex-1">
+          <p className="text-sm font-medium text-white">Булганым</p>
+          <p className="text-xs text-gray-400">Админ</p>
+        </div>
+        <ChevronRight size={16} className="text-gray-400" />
+      </div>
+    </aside>
   );
 }
 
-export default Header;
+export default Sidebar;

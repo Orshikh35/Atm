@@ -1,13 +1,15 @@
-"use client"
-import React from 'react'
-import Home from "@/app/home/page";
+"use client";
+import React from "react";
+import Home from "@/app/device/page";
 
-function page() {
+function Page() {
   return (
-    <div className='relative min-h-screen'>
-      <Home/>
-    </div>
-  )
+<div className="flex flex-col items-center justify-center  text-white">
+аиөибөабөаи
+</div>
+       
+
+  );
 }
 
-export default page
+export default Page;

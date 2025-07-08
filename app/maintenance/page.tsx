@@ -189,8 +189,6 @@ function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 pt-22 px-20">
-          {/* DataTable */}
           <div className="">
             <DataTable
               onDelete={handleDelete}
@@ -203,7 +201,7 @@ function Page() {
               onUpdate={handleUpdate}
             />
           </div>
-    </div>
+  
   );
 }
 

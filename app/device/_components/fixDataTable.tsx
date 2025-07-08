@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
 import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
-import Modal from "./ui/modal";
+import Modal from "../../../components/ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -150,14 +150,14 @@ export default function DataTable<TData extends BaseData>({
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => handleEdit(row.original)}
-                  className="p-1.5 text-blue-400 "
+                  className="p-1.5 text-blue-600 "
                   title="Засах"
                 >
                   <Edit3 size={16} />
                 </button>
                 <button
                   onClick={() => onDelete(row.original.id)}
-                  className="p-1.5 text-red-400"
+                  className="p-1.5 text-red-600"
                   title="Устгах"
                 >
                   <Trash2 size={16} />

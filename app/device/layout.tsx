@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/sidebar";
-import Home from "@/app/device/page";
+import "@/app/globals.css";
+import Header from "./_components/header";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -19,17 +19,14 @@ export const metadata: Metadata = {
 };
 
 // RootLayout.tsx
+// RootLayout.tsx
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className=" bg-[#181719] flex">
-          <Header />
-          <main className="flex-1 pt-6 overflow-y-auto">
-          <div className="w-full h-full border border-gray-100/10 bg-[#111113] rounded-tl-xl p-6">
-          {children}
-          </div>
-          </main>
+        <div className="bg-[#111113] h-full flex flex-col">
+          <Header /> {/* ⛳ Зөвхөн энэ байна */}
         </div>
       </body>
     </html>

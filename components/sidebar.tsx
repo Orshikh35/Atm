@@ -79,7 +79,7 @@ function Sidebar() {
           })}
         </nav>
       </div>
-      <div className="flex items-center gap-3 px-4 mt-10">
+      <div className="flex items-center gap-3 px-4">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
           <span className="text-white font-semibold text-sm">B</span>
         </div>

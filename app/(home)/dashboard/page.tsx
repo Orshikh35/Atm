@@ -9,12 +9,12 @@ function Page() {
   return (
     <div className=" text-white flex flex-col gap-6">
       <h1 className="text-2xl font-bold mb-6 text-orange-500">Нүүр хуудас</h1>
-      <div className='flex w-full justify-between'>
+      <div className='flex w-full justify-between gap-6'>
         <StatusCards />
         <DevicesChart />
       </div>
       <div className="flex justify-between">
-        <div className=" flex flex-col gap-4 w-[760]">
+        <div className=" flex flex-col gap-6 w-1/3">
           <LineChart />
           <RevenueByPeriod />
         </div>

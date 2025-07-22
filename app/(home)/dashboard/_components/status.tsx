@@ -10,7 +10,7 @@ const data = [
 
 export default function StatusCards() {
   return (
-    <div className=" rounded-xl  h-[336px] w-[766px]  justify-between gap-4 grid grid-cols-2">
+    <div className=" rounded-xl  h-[336px] w-1/3  justify-between gap-4 grid grid-cols-2">
       {data.map((item, index) => (
         <div
           key={index}

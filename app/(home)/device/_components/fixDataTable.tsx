@@ -15,7 +15,7 @@ import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, Chevro
 import Modal from "../../../../components/ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-
+import { toast } from "sonner"; 
 
 interface BaseData {
   id: number;
@@ -96,6 +96,7 @@ export default function DataTable<TData extends BaseData>({
     setFormData(rowData);
     setIsModalOpen(true);
   };
+  
 
   const handleModalSave = async () => {
     if (isEditMode && editId !== null) {
@@ -170,12 +171,13 @@ export default function DataTable<TData extends BaseData>({
     </table>
 
     {data.length === 0 && (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <div className="w-16 h-16 bg-[#2a2a2a] rounded-full flex items-center justify-center mb-4">
-          <Search size={24} className="text-white" />
-        </div>
-        <h3 className="text-lg font-medium text-white mb-1">Мэдээлэл олдсонгүй</h3>
-      </div>
+    <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
+    <div className="w-16 h-16 bg-orange-600/10 rounded-full flex items-center justify-center mb-4">
+      <Search size={24} className="text-orange-500" />
+    </div>
+    <h3 className="text-lg font-medium text-orange-300 mb-1">Мэдээлэл олдсонгүй</h3>
+  </div>
+  
     )}
   </div>
 

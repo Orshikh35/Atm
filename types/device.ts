@@ -14,5 +14,6 @@ export interface ATM {
     expiredDate: string;
     ownerId: number;
     orgName: string;
+    atmZone: string;
   }
   

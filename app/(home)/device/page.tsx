@@ -3,7 +3,7 @@ import Atm from './_components/atm'
 
 function Page() {
   return (
-    <div><Atm/></div>
+    <div className=''><Atm/></div>
   )
 }
 

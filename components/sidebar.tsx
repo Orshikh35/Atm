@@ -53,7 +53,7 @@ function Sidebar() {
   };
 
   return (
-    <aside className="w-80 h-screen bg-[#181719] text-gray-400 flex flex-col justify-between py-6">
+    <aside className="w-80 h-screen bg-black text-gray-400 flex flex-col justify-between py-6 ">
       <div>
         <div className="flex items-center gap-2 px-6 mb-10">
           <h1 className="text-lg font-semibold text-orange-600">ATM System</h1>

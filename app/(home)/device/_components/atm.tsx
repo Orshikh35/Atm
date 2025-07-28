@@ -5,9 +5,13 @@ import DataTable from "./fixDataTable";
 import dayjs from "dayjs";
 import { ATM } from "@/types/request";
 import modalData from "./modal";
-import { Search, Download, Plus, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Search,
+  Download,
+  Plus,
+} from "lucide-react";
 import exportToExcel from "@/components/exportToExcel";
-import {  getDevicesATM } from "@/action/device";
+import { getDevicesATM, updateDevice } from "@/action/device";
 import { toast } from "sonner";
 
 function Atm() {
@@ -27,19 +31,19 @@ function Atm() {
     installationDate: "",
     expiredDate: "",
     ownerId: 1,
-    orgName: ""
+    orgName: "",
+    atmZone: "",
   });
-  
-  // DataTable компонентод дамжуулах state-ууд
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const fetchAtmData = async () => {
-    const res = await getDevicesATM();
-    console.log("Fetched ATM data:", res);
-    
+      const res = await getDevicesATM();
+      console.log("Fetched ATM data:", res);
+
       if (res) {
         setData(res);
       } else {
@@ -66,7 +70,10 @@ function Atm() {
         accessorKey: key,
         header: () => (
           <span className="text-xs font-medium text-white uppercase tracking-wider ">
-            {key.replace('atm_', '').replace(/([A-Z])/g, ' $1').trim()}
+            {key
+              .replace("atm_", "")
+              .replace(/([A-Z])/g, " $1")
+              .trim()}
           </span>
         ),
         cell: ({ getValue }) => {
@@ -83,7 +90,11 @@ function Atm() {
             );
           }
 
-          return <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">{value.toString()}</span>;
+          return (
+            <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">
+              {value.toString()}
+            </span>
+          );
         },
       };
     });
@@ -105,18 +116,21 @@ function Atm() {
         installationDate: formData.installationDate || null,
         expiredDate: formData.expiredDate || null,
         ownerId: formData.ownerId ?? 0,
-        orgName: formData.orgName || ""
+        orgName: formData.orgName || "",
       };
 
       console.log("Sending payload:", payload);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
@@ -126,7 +140,7 @@ function Atm() {
 
       const newItem = await response.json();
       toast.success("Амжилттай нэмэгдлээ");
-      setData(prev => [...prev, newItem]);
+      setData((prev) => [...prev, newItem]);
 
       setFormData({
         deviceName: "",
@@ -142,7 +156,8 @@ function Atm() {
         installationDate: "",
         expiredDate: "",
         ownerId: 1,
-        orgName: ""
+        orgName: "",
+        atmZone: "",
       });
     } catch (error) {
       console.error("Алдаа:", error);
@@ -151,19 +166,24 @@ function Atm() {
   };
 
   const handleDelete = async (id: number) => {
-    const confirmed = window.confirm("Та энэ төхөөрөмжийг устгахдаа итгэлтэй байна уу?");
+    const confirmed = window.confirm(
+      "Та энэ төхөөрөмжийг устгахдаа итгэлтэй байна уу?"
+    );
     if (!confirmed) return;
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         toast.error("Устгах үед алдаа гарлаа");
-      };
+      }
       toast.success("Амжилттай устгагдлаа");
       setData((prev) => prev.filter((item) => item.id !== id));
     } catch (error) {
@@ -173,29 +193,39 @@ function Atm() {
   };
 
   const handleUpdate = async (id: number, formData: ATM) => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    const res = await updateDevice(id, formData);
+
+    if (res?.status) {
+      const refreshed = await getDevicesATM();
+      console.log({ refreshed });
+
+      if (res?.status) {
+        setData(refreshed.result);
+        toast.success("Амжилттай шинэчиллээ");
+      } else {
+        console.error("Update алдаа:", res.message);
+        toast.error(res.message);
+      }
+      setFormData({
+        deviceName: "",
+        serialNumber: "",
+        model: "",
+        deviceType: 0,
+        status: 0,
+        ip: "",
+        port: 0,
+        location: "",
+        province: "",
+        masterkey: "",
+        installationDate: "",
+        expiredDate: "",
+        ownerId: 1,
+        orgName: "",
+        atmZone: "",
       });
-
-      if (!response.ok) throw new Error("Шинэчлэхэд алдаа гарлаа");
-
-      toast.success("Амжилттай шинэчлэгдлээ");
-      setData(prevData => 
-        prevData.map(item => item.id === id ? { ...item, ...formData } : item)
-      );
-    } catch (error) {
-      console.error("Алдаа:", error);
-      toast.error("Шинэчлэхэд алдаа гарлаа");
     }
   };
 
-
- 
   return (
     <div className="">
       <div className="py-6 ">
@@ -203,10 +233,13 @@ function Atm() {
           <h2 className="text-xl font-semibold text-gray-100/50">
             ATM жагсаалт
           </h2>
-          
+
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="w-64 pl-10 pr-4 py-2 border border-gray-100/20 rounded-lg  text-sm text-white placeholder-gray-400 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+              <Search
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                size={16}
+              />
               <input
                 type="text"
                 placeholder="Хайх..."
@@ -215,17 +248,16 @@ function Atm() {
                 onChange={(e) => setInputValue(e.target.value)}
               />
             </div>
-            
+
             <div className="flex gap-3">
               <button
-           onClick={() => exportToExcel(data, "devices_data.xlsx")}
-
+                onClick={() => exportToExcel(data, "devices_data.xlsx")}
                 className="flex items-center gap-2 px-4 py-2 text-orange-600 rounded-lg text-sm font-medium transition-colors border border-orange-600"
               >
                 <Download size={16} />
                 <span>Excel</span>
               </button>
-              
+
               <button
                 onClick={() => {
                   setIsModalOpen(true);
@@ -244,7 +276,7 @@ function Atm() {
                     installationDate: "",
                     expiredDate: "",
                     ownerId: 1,
-                    orgName: ""
+                    orgName: "",
                   });
                 }}
                 className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors"
@@ -259,7 +291,7 @@ function Atm() {
 
       <DataTable
         onDelete={handleDelete}
-        data={[...data].reverse()}
+        data={data}
         columns={columns}
         onSave={handleSave}
         modalData={modalData}
@@ -275,10 +307,8 @@ function Atm() {
         setInputValue={setInputValue}
         exportToExcel={() => exportToExcel(data, "devices_data.xlsx")}
       />
-           
-      
     </div>
   );
 }
 
-export default Atm
+export default Atm;

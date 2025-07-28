@@ -19,20 +19,41 @@ export const metadata: Metadata = {
 };
 
 // RootLayout.tsx
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className=" bg-[#181719] flex">
-          <Header />
-          <main className="flex-1 pt-6 overflow-y-auto">
-          <div className="w-full h-full border border-gray-100/10 bg-[#111113] rounded-tl-xl p-6">
-          {children}
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <div className="relative bg-black overflow-hidden min-h-screen flex">
+          <div
+            className="absolute bottom-[-300px] left-[-300px] w-[700px] h-[700px] blur-[200px] rounded-full z-[0]"
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(249, 115, 22, 0.8) 0%, transparent 80%)",
+            }}
+          />
+          <div
+            className="absolute top-[-300px] right-[-300px] w-[700px] h-[700px] blur-[200px] rounded-full z-0"
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(168, 85, 247, 0.8) 0%, transparent 80%)",
+            }}
+          />
+          <div className="flex w-full ">
+            <Header />
+            <main className="flex-1 overflow-y-auto pt-6 absolute top-0 right-0 bottom-0 left-80">
+              <div className="w-full h-full border border-gray-100/10 bg-[#111113] rounded-tl-xl p-6">
+                {children}
+              </div>
+            </main>
           </div>
-          </main>
         </div>
       </body>
     </html>
   );
 }
-

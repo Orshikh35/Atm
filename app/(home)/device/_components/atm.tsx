@@ -11,12 +11,15 @@ import {
   Plus,
 } from "lucide-react";
 import exportToExcel from "@/components/exportToExcel";
-import { getDevicesATM, updateDevice } from "@/action/device";
+import { deleteDevice, getDevicesATM, updateDevice } from "@/action/device";
 import { toast } from "sonner";
+import { DeleteDialog } from "@/components/deleteModal";
 
 function Atm() {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
   const [formData, setFormData] = useState<any>({
     deviceName: "",
     serialNumber: "",
@@ -165,36 +168,31 @@ function Atm() {
     }
   };
 
-  const handleDelete = async (id: number) => {
-    const confirmed = window.confirm(
-      "Та энэ төхөөрөмжийг устгахдаа итгэлтэй байна уу?"
-    );
-    if (!confirmed) return;
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+  const handleDelete = (id: number) => {
+    setDeleteId(id);
+    setIsDeleteOpen(true);
+  };
 
-      if (!response.ok) {
-        toast.error("Устгах үед алдаа гарлаа");
+  const confirmDelete = async () => {
+    if (deleteId === null) return;
+
+    const result = await deleteDevice(deleteId);
+
+    if (result?.status) {
+      const res = await getDevicesATM();
+      if (res?.status) {
+        setData(res.result);
       }
-      toast.success("Амжилттай устгагдлаа");
-      setData((prev) => prev.filter((item) => item.id !== id));
-    } catch (error) {
-      console.error("Алдаа:", error);
-      toast.error("Устгах үед алдаа гарлаа");
+    } else {
+      console.error("Устгах үед алдаа:", result?.message);
+      toast.error(result?.message);
     }
+    setIsDeleteOpen(false);
+    setDeleteId(null);
   };
 
   const handleUpdate = async (id: number, formData: ATM) => {
     const res = await updateDevice(id, formData);
-
     if (res?.status) {
       const refreshed = await getDevicesATM();
       console.log({ refreshed });
@@ -306,6 +304,12 @@ function Atm() {
         inputValue={inputValue}
         setInputValue={setInputValue}
         exportToExcel={() => exportToExcel(data, "devices_data.xlsx")}
+      />
+
+<DeleteDialog
+        open={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={confirmDelete}
       />
     </div>
   );

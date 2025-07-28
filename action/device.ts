@@ -115,7 +115,7 @@ export const updateDevice = async (id: number, formData: any) => {
 
   try {
     const res = await fetch(fullUrl, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -158,8 +158,21 @@ export const updateDevice = async (id: number, formData: any) => {
 };
 
 export const deleteDevice = async (id: number) => {
-  const res = await fetch(`${BASE_URL}/ATM/${id}`, {
+
+  const fullUrl = `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/ATM/${id}`;
+  const res = await fetch(fullUrl, {
     method: "DELETE",
+    headers: {
+      "Content-type": "application/json",
+    },
   });
-  if (!res.ok) throw new Error("Устгах үед алдаа гарлаа");
+  console.log("Delete response:", res);
+  if (res.status === 404) {
+    return { status: false, statusCode: 404, message: "Алдаатай хүсэлт." };
+  }
+  const data = await res.json();
+  if (!data.status) {
+    return { status: false, statusCode: res.status, message: data.message };
+  }
+  return data;
 };

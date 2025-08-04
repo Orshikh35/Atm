@@ -14,7 +14,7 @@ export default function StatusCards() {
       {data.map((item, index) => (
         <div
           key={index}
-          className="bg-neutral-400/20  backdrop-blur-[1px] rounded-lg flex flex-col justify-between items-start px-6 py-8 w-full border border-neutral-400/20 shadow-xl transition-all duration-300 hover:shadow-2xl "
+          className="bg-white/20  backdrop-blur-[1px] rounded-lg flex flex-col justify-between items-start px-6 py-8 w-full border border-neutral-400/20 shadow-xl transition-all duration-300 hover:shadow-2xl "
           style={{ minWidth: 0 }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-lg pointer-events-none"></div>

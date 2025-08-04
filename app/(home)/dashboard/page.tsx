@@ -5,10 +5,10 @@ import  ChartPieLabel  from "@/components/ui/chart-pie-label";
 
 function Page() {
   return (
-    <div className="text-white flex flex-col  relative">
+    <div className="text-white flex flex-col  ">
       <div className="fixed inset-0 bg-gradient-to-br from-blue-900/20 via-blue-700/10 to-teal-500/20 pointer-events-none"></div>
 
-      <h1 className="text-2xl font-bold mb-6 text-blue-500 drop-shadow-lg relative z-10">
+      <h1 className="text-2xl font-medium text-white/80 mb-6  drop-shadow-lg">
         Нүүр хуудас
       </h1>
       <div className="flex flex-col gap-6">

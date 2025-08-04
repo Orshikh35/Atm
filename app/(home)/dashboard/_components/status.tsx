@@ -57,8 +57,8 @@ export default function StatusCards() {
             </h3>
             <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium backdrop-blur-sm border ${
               item.trend === 'up' 
-                ? 'bg-emerald-400/20 border-emerald-400/30 text-emerald-300' 
-                : 'bg-red-400/20 border-red-400/30 text-red-300'
+                ? 'bg-emerald-600/20 border-emerald-600/30 text-emerald-300' 
+                : 'bg-red-600/20 border-red-400/20 text-red-300'
             }`}>
               {item.trend === 'up' ? (
                 <TrendingUp className="w-3 h-3" />

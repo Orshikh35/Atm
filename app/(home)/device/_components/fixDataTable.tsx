@@ -11,11 +11,20 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
-import { ArrowUpDown, Download, Search, Plus, Edit3, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowUpDown,
+  Download,
+  Search,
+  Plus,
+  Edit3,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import Modal from "../../../../components/ui/modal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { toast } from "sonner"; 
+import { toast } from "sonner";
 
 interface BaseData {
   id: number;
@@ -44,7 +53,6 @@ interface DataTableProps<TData extends BaseData> {
   exportToExcel: () => void;
 }
 
-
 export default function DataTable<TData extends BaseData>({
   data,
   columns,
@@ -62,11 +70,9 @@ export default function DataTable<TData extends BaseData>({
   setInputValue,
   exportToExcel,
 }: DataTableProps<TData>) {
-
   const [sorting, setSorting] = useState<SortingState>([]);
   const [editId, setEditId] = useState<number | null>(null);
   const [globalFilter, setGlobalFilter] = useState("");
-
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -96,7 +102,6 @@ export default function DataTable<TData extends BaseData>({
     setFormData(rowData);
     setIsModalOpen(true);
   };
-  
 
   const handleModalSave = async () => {
     if (isEditMode && editId !== null) {
@@ -109,86 +114,101 @@ export default function DataTable<TData extends BaseData>({
     setEditId(null);
   };
 
-
   return (
-<div className="flex flex-col h-[calc(100vh-250px)] rounded-xl ] shadow-sm border border-white/10 w-full p-1">
-  <div className="flex-1 overflow-auto">
-    <table className="w-full border-collapse">
-      <thead className="sticky top-0 z-10 ">
-        <tr className="border-b border-white/10">
-          <th className="px-4 py-3 text-left font-medium text-white uppercase text-xs w-12">
-            №
-          </th>
-          {table.getHeaderGroups()[0]?.headers.map((header) => (
-            <th
-              key={header.id}
-              className="px-4 py-3 text-center font-medium text-white uppercase text-xs"
-            >
-              <button className="flex items-center gap-1">
-                {flexRender(header.column.columnDef.header, header.getContext())}
-              </button>
-            </th>
-          ))}
-          <th className="px-4 py-3 text-right font-medium text-white uppercase text-xs w-24">
-            Үйлдэл
-          </th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-white/10">
-        {table.getRowModel().rows.map((row, index) => (
-          <tr key={row.id} className="hover:bg-white/10">
-            <td className="px-4 py-3 text-white text-sm text-center">
-              {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + index + 1}
-            </td>
-            {row.getVisibleCells().map((cell) => (
-              <td key={cell.id} className="px-4 py-3  text-sm">
-                <div className="">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </div>
-              </td>
+    <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl ] shadow-sm border border-white/10 w-full p-1 relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent rounded-2xl pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-tl from-blue-400/10 via-transparent to-purple-400/10 rounded-2xl pointer-events-none opacity-60"></div>
+
+      {/* Animated shimmer effect */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+      </div>
+
+      <div className="flex-1 overflow-auto">
+        <table className="w-full border-collapse">
+          <thead className="sticky top-0 z-10 ">
+            <tr className="border-b border-white/10">
+              <th className="px-4 py-3 text-left font-medium text-white uppercase text-xs w-12">
+                №
+              </th>
+              {table.getHeaderGroups()[0]?.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="px-4 py-3 text-center font-medium text-white uppercase text-xs"
+                >
+                  <button className="flex items-center gap-1">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </button>
+                </th>
+              ))}
+              <th className="px-4 py-3 text-right font-medium text-white uppercase text-xs w-24">
+                Үйлдэл
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/10">
+            {table.getRowModel().rows.map((row, index) => (
+              <tr key={row.id} className="hover:bg-white/10">
+                <td className="px-4 py-3 text-white text-sm text-center">
+                  {table.getState().pagination.pageIndex *
+                    table.getState().pagination.pageSize +
+                    index +
+                    1}
+                </td>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="px-4 py-3  text-sm">
+                    <div className="">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </div>
+                  </td>
+                ))}
+                <td className="px-4 py-3 text-right">
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => handleEdit(row.original)}
+                      className="p-1.5 text-blue-600 "
+                      title="Засах"
+                    >
+                      <Edit3 size={16} />
+                    </button>
+                    <button
+                      onClick={() => onDelete(row.original.id)}
+                      className="p-1.5 text-red-600"
+                      title="Устгах"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
             ))}
-            <td className="px-4 py-3 text-right">
-              <div className="flex justify-end gap-2">
-                <button
-                  onClick={() => handleEdit(row.original)}
-                  className="p-1.5 text-blue-600 "
-                  title="Засах"
-                >
-                  <Edit3 size={16} />
-                </button>
-                <button
-                  onClick={() => onDelete(row.original.id)}
-                  className="p-1.5 text-red-600"
-                  title="Устгах"
-                >
-                  <Trash2 size={16} />
-                </button>
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          </tbody>
+        </table>
 
-    {data.length === 0 && (
-    <div className="flex flex-col items-center justify-center py-16 text-center text-gray-400">
-    <div className="w-16 h-16 bg-orange-600/10 rounded-full flex items-center justify-center mb-4">
-      <Search size={24} className="text-orange-500" />
+  {data.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              <Search size={24} className="text-gray-400" />
+            </div>
+            <h3 className="text-lg font-medium text-white mb-1">Мэдээлэл олдсонгүй</h3>
+
+          </div>
+        )}
+      </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleModalSave}
+        modalData={() => modalData(formData, setFormData, isEditMode)}
+        title={isEditMode ? "Засах" : ""}
+      />
     </div>
-    <h3 className="text-lg font-medium text-orange-300 mb-1">Мэдээлэл олдсонгүй</h3>
-  </div>
-  
-    )}
-  </div>
-
-  <Modal
-    isOpen={isModalOpen}
-    onClose={() => setIsModalOpen(false)}
-    onSave={handleModalSave}
-    modalData={() => modalData(formData, setFormData, isEditMode)}
-    title={isEditMode ? "Засах" : ""}
-  />
-</div>
-
   );
 }

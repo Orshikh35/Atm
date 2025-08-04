@@ -21,10 +21,10 @@ function GlassmorphismPieChart() {
   const total = chartData.reduce((sum, item) => sum + item.visitors, 0);
 
   return (
-        <div className=" backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
+        <div className=" backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 ">
           {/* Glass reflection effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl pointer-events-none"></div>
-          
+          <div className="absolute inset-0  rounded-3xl pointer-events-none"></div>
+           
           <div className="relative z-10">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">

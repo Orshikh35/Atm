@@ -38,7 +38,7 @@ export default function StatusCards() {
       {data.map((item, index) => (
         <div
           key={index}
-          className="relative bg-white/10 backdrop-blur-md rounded-2xl flex flex-col justify-between items-start px-6 py-6 w-full border border-white/20 shadow-2xl overflow-hidden group hover:bg-white/15 transition-all duration-500 hover:scale-[1.02] hover:shadow-3xl"
+          className="relative  backdrop-blur-md rounded-2xl flex flex-col justify-between items-start px-6 py-6 w-full border border-white/20 shadow-2xl overflow-hidden group  transition-all duration-500 hover:scale-[1.02] hover:shadow-3xl"
           style={{ minWidth: 0 }}
         >
           {/* Enhanced liquid glass overlay */}

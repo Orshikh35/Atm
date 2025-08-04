@@ -22,9 +22,9 @@ function GlassmorphismChart() {
       <div className="relative z-10 w-256 mx-auto">
         {/* Main Chart Container - Takes 2/3 width and increased height */}
         <div className="w-full max-w-5xl mx-auto">
-          <div className=" backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:bg-white/15">
+          <div className=" backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500">
             {/* Glass reflection effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl pointer-events-none"></div>
             <div className="relative z-10">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">

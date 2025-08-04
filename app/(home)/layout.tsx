@@ -20,10 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+
         <div className="min-h-screen flex relative overflow-hidden bg-gradient-to-br from-[#0f172a] via-[#0b2e49] to-[#155e75]">
           {/* Layered background with multiple gradients for depth */}
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900/60 to-teal-800/40"></div>
@@ -46,7 +43,6 @@ export default function RootLayout({
             </main>
           </div>
         </div>
-      </body>
-    </html>
+
   );
 }

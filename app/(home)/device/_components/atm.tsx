@@ -16,6 +16,8 @@ import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-van
 
 function Atm() {
   const [data, setData] = useState<any[]>([]);
+  console.log({data});
+  
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);

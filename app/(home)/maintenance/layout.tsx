@@ -23,13 +23,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
         <div className=" flex flex-col">
           <Header /> {/* ⛳ Зөвхөн энэ байна */}
         </div>
-      </body>
-    </html>
+ 
   );
 }
 

@@ -106,13 +106,13 @@ export default function DataTable<TData extends BaseData>({
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl bg-[#1a1a1a] shadow-sm border border-[#2a2a2a] w-full p-1">
+    <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl  shadow-sm border border-white/10 w-full p-1">
 
       {/* Table Section */}
       <div className="flex-1 overflow-auto">
         <table className="w-full border-collapse">
-        <thead className="sticky top-0 z-10 bg-[#1a1a1a]">
-        <tr className="border-b border-[#2a2a2a]">
+        <thead className="sticky top-0 z-10 ">
+        <tr className="border-b border-white/10">
               <th className="px-4 py-3 text-left font-medium text-gray-500 uppercase text-xs w-12">
                 №
               </th>
@@ -137,9 +137,9 @@ export default function DataTable<TData extends BaseData>({
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#2a2a2a]">
+          <tbody className="divide-y divide-white/10">
             {table.getRowModel().rows.map((row, index) => (
-            <tr key={row.id} className="hover:bg-[#2c2c2c]">
+            <tr key={row.id} className="hover:bg-white/20">
                 <td className="px-4 py-3 text-gray-500 text-sm text-center">
                   {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + index + 1}
                 </td>

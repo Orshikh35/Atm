@@ -39,7 +39,7 @@ function Header() {
               key={item.key}
               onClick={() => setActiveTab(item.key)}
               className={`flex items-center gap-2 px-4 py-2 transition ${
-                isActive ? "text-orange-500 font-light" : "text-gray-100/50"
+                isActive ? "text-blue-500 font-light" : "text-gray-100/50"
               }`}
             >
               /{item.icon}

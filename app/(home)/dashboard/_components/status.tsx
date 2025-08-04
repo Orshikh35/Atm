@@ -10,17 +10,24 @@ const data = [
 
 export default function StatusCards() {
   return (
-    <div className=" rounded-xl  h-[336px] w-1/3  justify-between gap-4 grid grid-cols-2">
+    <div className=" h-[136px] w-full justify-between gap-4 flex ">
       {data.map((item, index) => (
         <div
           key={index}
-          className="bg-[#181719] rounded-lg flex flex-col justify-between items-start px-6 py-8"
+          className="bg-neutral-400/20  backdrop-blur-[1px] rounded-lg flex flex-col justify-between items-start px-6 py-8 w-full border border-neutral-400/20 shadow-xl transition-all duration-300 hover:shadow-2xl "
           style={{ minWidth: 0 }}
         >
-          <h3 className="text-gray-100/40 text-md font-light">{item.title}</h3>
-          <div className="flex items-center justify-between w-full">
-            <p className="text-white text-4xl font-bold">{item.value}</p>
-            <button className="p-2 rounded-lg bg-orange-100/20"><Atom/></button>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-lg pointer-events-none"></div>
+          <h3 className="text-white/60 text-md font-light drop-shadow-sm relative z-10">
+            {item.title}
+          </h3>
+          <div className="flex items-center justify-between w-full relative z-10">
+            <p className="text-white text-4xl font-bold drop-shadow-lg">
+              {item.value}
+            </p>
+            <button className="p-2 rounded-lg bg-blue-400/20 backdrop-blur-sm border border-blue-300/30 hover:bg-blue-400/30 transition-all duration-300 shadow-lg">
+              <Atom className="text-blue-400 drop-shadow-sm" />
+            </button>
           </div>
         </div>
       ))}

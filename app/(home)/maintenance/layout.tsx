@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="bg-[#111113] flex flex-col">
+        <div className=" flex flex-col">
           <Header /> {/* ⛳ Зөвхөн энэ байна */}
         </div>
       </body>

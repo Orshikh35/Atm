@@ -34,7 +34,7 @@ function Atm() {
     masterkey: "",
     installationDate: "",
     expiredDate: "",
-    ownerId: 1,
+    createdId: 1,
     orgName: "",
     atmZone: "",
   });

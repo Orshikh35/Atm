@@ -115,7 +115,7 @@ export default function DataTable<TData extends BaseData>({
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl ] shadow-sm border border-white/10 w-full p-1 relative">
+    <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl ] shadow-sm border border-white/10 w-full p-1 ">
       <div className="flex-1 overflow-auto">
         <table className="w-full border-collapse">
           <thead className="sticky top-0 z-10 ">

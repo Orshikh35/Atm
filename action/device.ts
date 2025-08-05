@@ -5,6 +5,7 @@ const BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices`;
 
 export const getDevicesATM = async () => {
   const fullUrl = BASE_URL;
+  console.log({ fullUrl });
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_LOCAL}/Devices/ATM`,
@@ -15,7 +16,7 @@ export const getDevicesATM = async () => {
         },
       }
     );
-    //console.log({response});
+    console.log({response});
 
     if (!response.ok) throw new Error("Серверээс алдаа ирлээ");
 
@@ -24,7 +25,7 @@ export const getDevicesATM = async () => {
 
     return result;
   } catch (error) {
-    //console.error("GET Error:", error);
+    console.error("GET Error:", error);
     return { status: false, message: "Алдаа гарлаа." };
   }
 };

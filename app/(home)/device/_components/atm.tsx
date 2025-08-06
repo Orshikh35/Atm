@@ -14,11 +14,12 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import Header from "./header";
+import Modal from "./modal";
 
 function Atm() {
   const [data, setData] = useState<any[]>([]);
-  console.log({data});
-  
+  console.log({ data });
+
   const [columns, setColumns] = useState<ColumnDef<any, any>[]>([]);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -230,9 +231,7 @@ function Atm() {
     <div className="">
       <div className="py-6 ">
         <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-          <h2 className="text-xl font-semibold text-white">
-            ATM жагсаалт
-          </h2>
+          <h2 className="text-xl font-semibold text-white">ATM жагсаалт</h2>
 
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
             <div className="w-64 pl-10 pr-10 py-2 border border-gray-100/20 rounded-lg text-sm text-white placeholder-gray-400 relative bg-gradient-to-l from-white/5">
@@ -312,7 +311,7 @@ function Atm() {
         data={data}
         columns={columns}
         onSave={handleSave}
-        modalData={modalData}
+
         formData={formData}
         setFormData={setFormData}
         title={"Төхөөрөмж"}
@@ -330,6 +329,16 @@ function Atm() {
         open={isDeleteOpen}
         onClose={() => setIsDeleteOpen(false)}
         onConfirm={confirmDelete}
+      />
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave} // ✅ use handleSave
+        formData={formData}
+        setFormData={setFormData}
+        title={isEditMode ? "Засах" : "Шинээр нэмэх"}
+        isEditMode={isEditMode}
       />
     </div>
   );

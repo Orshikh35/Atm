@@ -263,7 +263,7 @@ function Kiosk() {
         data={[...data].reverse()}
         columns={columns}
         onSave={handleSave}
-        modalData={modalData}
+
         formData={formData}
         setFormData={setFormData}
         title={"Төхөөрөмж"}

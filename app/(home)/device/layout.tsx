@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <div className=" flex flex-col">
           <Header /> {/* ⛳ Зөвхөн энэ байна */}
+          
         </div>
  
   );

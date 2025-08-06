@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -19,6 +19,17 @@ const Modal: React.FC<ModalProps> = ({
   setFormData,
   isEditMode = false,
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -26,15 +37,11 @@ const Modal: React.FC<ModalProps> = ({
       <div
         className="relative w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto p-6 rounded-2xl text-white"
         style={{
-          background:
-            "rgba(59, 130, 246, 0.15)", // blue-500 with low opacity
+          background: "rgba(59, 130, 246, 0.15)", 
           border: "1.5px solid transparent",
           backdropFilter: "blur(8px)",
         }}
       >
-
-
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-semibold">
             {title || (isEditMode ? "Засах" : "Шинээр нэмэх")}
@@ -47,8 +54,6 @@ const Modal: React.FC<ModalProps> = ({
             ×
           </button>
         </div>
-
-        {/* Form Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
             { label: "Төхөөрөмжийн нэр", name: "deviceName", type: "text" },
@@ -58,11 +63,13 @@ const Modal: React.FC<ModalProps> = ({
             { label: "Порт", name: "port", type: "number" },
             { label: "Байршил", name: "location", type: "text" },
             { label: "Аймаг / Хот", name: "province", type: "text" },
-            { label: "Master Key", name: "masterkey", type: "text" },
-            { label: "Суулгасан огноо", name: "installationDate", type: "date" },
-            { label: "Дуусах огноо", name: "expiredDate", type: "date" },
+            {
+              label: "Суулгасан огноо",
+              name: "installationDate",
+              type: "date",
+            },
             { label: "Эзэмшигч ID", name: "ownerId", type: "number" },
-            { label: "Байгууллага", name: "orgName", type: "text" },
+            { label: "Байгууллага", name: "orgId", type: "text" },
           ].map((field, i) => (
             <div key={i}>
               <label className="block mb-1 text-sm font-medium text-white/90">
@@ -82,13 +89,11 @@ const Modal: React.FC<ModalProps> = ({
                         : e.target.value,
                   })
                 }
-                className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/30 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/30 text-white placeholder:text-white/50 outline-none transition"
                 placeholder={field.label}
               />
             </div>
           ))}
-
-          {/* Device Type */}
           <div>
             <label className="block mb-1 text-sm font-medium text-white/90">
               Төхөөрөмжийн төрөл
@@ -96,7 +101,10 @@ const Modal: React.FC<ModalProps> = ({
             <select
               value={formData.deviceType ?? 0}
               onChange={(e) =>
-                setFormData({ ...formData, deviceType: parseInt(e.target.value) })
+                setFormData({
+                  ...formData,
+                  deviceType: parseInt(e.target.value),
+                })
               }
               className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/30 text-white focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
             >
@@ -105,8 +113,6 @@ const Modal: React.FC<ModalProps> = ({
               <option value={2}>POS</option>
             </select>
           </div>
-
-          {/* Status */}
           <div>
             <label className="block mb-1 text-sm font-medium text-white/90">
               Төлөв
@@ -123,8 +129,6 @@ const Modal: React.FC<ModalProps> = ({
             </select>
           </div>
         </div>
-
-        {/* Buttons */}
         <div className="mt-8 flex justify-end gap-4">
           <button
             onClick={onClose}
@@ -133,7 +137,10 @@ const Modal: React.FC<ModalProps> = ({
             Болих
           </button>
           <button
-            onClick={onSave}
+            onClick={() => {
+              onSave();
+              onClose();
+            }}
             className="px-5 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 transition text-white font-semibold"
           >
             Хадгалах

@@ -4,16 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import DataTable from "./fixDataTable";
 import dayjs from "dayjs";
 import { ATM } from "@/types/request";
-import modalData from "./modal";
 import { Search, Download, Plus, XIcon, X } from "lucide-react";
 import exportToExcel from "@/components/exportToExcel";
 import { deleteDevice, getDevicesATM, updateDevice } from "@/action/device";
 import { toast } from "sonner";
 import { DeleteDialog } from "@/components/deleteModal";
-import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
-import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
-import Header from "./header";
 import Modal from "./modal";
 
 function Atm() {
@@ -33,11 +29,9 @@ function Atm() {
     port: 0,
     location: "",
     province: "",
-    masterkey: "",
     installationDate: "",
-    expiredDate: "",
     createdId: 1,
-    orgName: "",
+    orgId: 0,
     atmZone: "",
   });
 
@@ -69,7 +63,9 @@ function Atm() {
   const generateColumnsFromData = (allOrgs: any[]): ColumnDef<any, any>[] => {
     if (!allOrgs.length) return [];
 
-    return Object.keys(allOrgs[0]).map((key) => {
+    return Object.keys(allOrgs[0])
+    .filter((key) => key !== "id") 
+    .map((key) => {
       const isDateField = key.toLowerCase().includes("date");
 
       return {
@@ -118,11 +114,9 @@ function Atm() {
         port: formData.port ?? 0,
         location: formData.location || "",
         province: formData.province || "",
-        masterkey: formData.masterkey || "",
         installationDate: formData.installationDate || null,
-        expiredDate: formData.expiredDate || null,
         ownerId: formData.ownerId ?? 0,
-        orgName: formData.orgName || "",
+        orgId: formData.orgName || 0,
       };
 
       console.log("Sending payload:", payload);
@@ -158,11 +152,9 @@ function Atm() {
         port: 0,
         location: "",
         province: "",
-        masterkey: "",
         installationDate: "",
-        expiredDate: "",
         ownerId: 1,
-        orgName: "",
+        orgId: 0,
         atmZone: "",
       });
     } catch (error) {
@@ -217,11 +209,9 @@ function Atm() {
         port: 0,
         location: "",
         province: "",
-        masterkey: "",
         installationDate: "",
-        expiredDate: "",
         ownerId: 1,
-        orgName: "",
+        orgId: "",
         atmZone: "",
       });
     }
@@ -289,11 +279,9 @@ function Atm() {
                     port: 0,
                     location: "",
                     province: "",
-                    masterkey: "",
                     installationDate: "",
-                    expiredDate: "",
                     ownerId: 1,
-                    orgName: "",
+                    orgId: 0,
                   });
                 }}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors"

@@ -18,7 +18,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import Modal from "../../../../components/ui/modal";
 
 interface BaseData {
   id: number;
@@ -45,18 +44,11 @@ interface DataTableProps<TData extends BaseData> {
 export default function DataTable<TData extends BaseData>({
   data,
   columns,
-  onSave,
-  formData,
   setFormData,
   onDelete,
-  onUpdate,
-  isModalOpen,
   setIsModalOpen,
-  isEditMode,
   setIsEditMode,
   inputValue,
-  setInputValue,
-  exportToExcel,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [editId, setEditId] = useState<number | null>(null);
@@ -89,17 +81,6 @@ export default function DataTable<TData extends BaseData>({
     setEditId(rowData.id);
     setFormData(rowData);
     setIsModalOpen(true);
-  };
-
-  const handleModalSave = async () => {
-    if (isEditMode && editId !== null) {
-      await onUpdate(editId, formData);
-    } else {
-      await onSave(formData);
-    }
-    setIsModalOpen(false);
-    setIsEditMode(false);
-    setEditId(null);
   };
 
   return (

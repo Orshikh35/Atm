@@ -25,11 +25,6 @@ interface DataTableProps<TData extends BaseData> {
   data: TData[];
   columns: ColumnDef<TData, any>[];
   onSave: (formData: any) => Promise<void>;
-  modalData: (
-    formData: any,
-    setFormData: React.Dispatch<React.SetStateAction<any>>,
-    isEditMode: boolean
-  ) => JSX.Element;
   formData: any;
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   onDelete: (id: number) => void;
@@ -47,7 +42,6 @@ export default function DataTable<TData extends BaseData>({
   data,
   columns,
   onSave,
-  modalData,
   formData,
   setFormData,
   onDelete,
@@ -213,13 +207,6 @@ export default function DataTable<TData extends BaseData>({
               </div>
             </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleModalSave}
-        modalData={() => modalData(formData, setFormData, isEditMode)}
-        title={isEditMode ? "Засах" : ""}
-      />
     </div>
   );
 }

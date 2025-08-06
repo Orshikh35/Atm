@@ -9,6 +9,7 @@ import modalData from "./modal";
 import { Download, Plus, Search, XIcon } from "lucide-react";
 import exportToExcel from "@/components/exportToExcel";
 import { AnimatePresence, motion } from "motion/react";
+import Modal from "./modal";
 
 function Atm() {
   const [data, setData] = useState<any[]>([]);
@@ -62,37 +63,81 @@ function Atm() {
   
   const generateColumnsFromData = (allOrgs: any[]): ColumnDef<any, any>[] => {
     if (!allOrgs.length) return [];
+  
+    return Object.keys(allOrgs[0])
+      .filter((key) => key !== "id")
+      .map((key) => {
+        const isDateField = key.toLowerCase().includes("date");
+  
+        // Тодорхой багануудыг тусгай хувьд хэвлэх
+        if (key === "төлөв") {
+          return {
+            accessorKey: key,
+            header: () => (
+              <span className="text-xs font-medium text-white uppercase tracking-wider">
+                Статус
+              </span>
+            ),
+            cell: ({ getValue }) => {
+              const value = getValue<string>();
+  
+              // Статусын өнгө ба хүрээ тодорхойлох функц
+          const statusStyles: { [key: string]: string } = {
+  "Хүлээгдэж байна": "bg-yellow-400/20 text-yellow-300 backdrop-blur-md border border-yellow-300/40 rounded-full px-3 py-1 text-xs font-semibold shadow-sm",
+  "Тест хийгдэж байна": "bg-blue-400/20 text-blue-300 backdrop-blur-md border border-blue-300/40 rounded-full px-3 py-1 text-xs font-semibold shadow-sm",
+  "Цуцлагдсан": "bg-red-400/20 text-red-300 backdrop-blur-md border border-red-300/40 rounded-full px-3 py-1 text-xs font-semibold shadow-sm",
+  "Амжилттай": "bg-green-400/20 text-green-300 backdrop-blur-md border border-green-300/40 rounded-full px-3 py-1 text-xs font-semibold shadow-sm",
+  "": "bg-gray-400/20 text-gray-300 backdrop-blur-md border border-gray-300/40 rounded-full px-3 py-1 text-xs font-semibold shadow-sm",
+};
 
-    return Object.keys(allOrgs[0]).map((key) => {
-      const isDateField = key.toLowerCase().includes("date");
-
-      return {
-        accessorKey: key,
-        header: () => (
-          <span className="text-xs font-medium text-white uppercase tracking-wider ">
-            {key.replace('atm_', '').replace(/([A-Z])/g, ' $1').trim()}
-          </span>
-        ),
-        cell: ({ getValue }) => {
-          const value = getValue<any>();
-          if (value === null || value === undefined || value === "") return "-";
-
-          if (isDateField) {
+              
+              // Хэрвээ статус тодорхойгүй байвал default өнгө ашиглана
+              const styleClass = statusStyles[value] ?? statusStyles[""];
+  
+              return (
+                <span
+                  className={`inline-block px-2 py-0.5 rounded-full text-[12px] font-semibold border ${styleClass} max-w-[200px] truncate text-center`}
+                  title={value}
+                >
+                  {value || "-"}
+                </span>
+              );
+            },
+          };
+        }
+  
+        // Ерөнхий статус бус баганы хувьд хэвлэх логик
+        return {
+          accessorKey: key,
+          header: () => (
+            <span className="text-xs font-medium text-white uppercase tracking-wider ">
+              {key.replace('atm_', '').replace(/([A-Z])/g, ' $1').trim()}
+            </span>
+          ),
+          cell: ({ getValue }) => {
+            const value = getValue<any>();
+            if (value === null || value === undefined || value === "") return "-";
+  
+            if (isDateField) {
+              return (
+                <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">
+                  {dayjs(value).isValid()
+                    ? dayjs(value).format("YYYY-MM-DD")
+                    : value}
+                </span>
+              );
+            }
+  
             return (
               <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">
-                {dayjs(value).isValid()
-                  ? dayjs(value).format("YYYY-MM-DD")
-                  : value}
+                {value.toString()}
               </span>
             );
-          }
-
-          return <span className="text-[12px] text-gray-100/80 truncate max-w-[200px] text-center">{value.toString()}</span>;
-        },
-      };
-    });
+          },
+        };
+      });
   };
-
+  
   
 
   const handleSave = async () => {
@@ -225,7 +270,6 @@ function Atm() {
               data={[...data].reverse()}
               columns={columns}
               onSave={handleSave}
-              modalData={modalData}
               formData={formData}
               setFormData={setFormData}
               onUpdate={handleUpdate}
@@ -237,6 +281,15 @@ function Atm() {
               setInputValue={setInputValue}
               exportToExcel={() => exportToExcel(data, "maintenance_data.xlsx")}
             />
+                <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={handleSave} // ✅ use handleSave
+        formData={formData}
+        setFormData={setFormData}
+        title={isEditMode ? "Засах" : "Шинээр нэмэх"}
+        isEditMode={isEditMode}
+      />
           </div>
   
   );

@@ -46,7 +46,9 @@ function Report() {
   const generateColumnsFromData = (allOrgs: any[]): ColumnDef<any, any>[] => {
     if (!allOrgs.length) return [];
 
-    return Object.keys(allOrgs[0]).map((key) => {
+    return Object.keys(allOrgs[0])
+    .filter((key) => key !== "id") 
+    .map((key) => {
       const isDateField = key.toLowerCase().includes("date");
 
       return {

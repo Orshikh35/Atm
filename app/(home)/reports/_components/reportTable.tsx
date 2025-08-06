@@ -12,18 +12,10 @@ import {
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
 import {
-  ArrowUpDown,
-  Download,
   Search,
-  Plus,
-  Edit3,
-  Trash2,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
-import { exportToWord } from "@/lib/export-word";
 
 interface BaseData {
   id: number;
@@ -42,9 +34,6 @@ export default function DataTable<TData extends BaseData>({
   data,
   columns,
   inputValue,
-  setInputValue,
-  exportToExcel,
-  exportToWord,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
@@ -91,9 +80,6 @@ export default function DataTable<TData extends BaseData>({
                   )}
                 </th>
               ))}
-              <th className="px-4 py-3 text-right uppercase text-xs font-bold">
-                Үйлдэл
-              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/10">

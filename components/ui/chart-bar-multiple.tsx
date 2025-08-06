@@ -43,7 +43,7 @@ function GlassmorphismChart() {
                 Статистикийн мэдээлэл
               </h2>
               <p className="text-blue-200/80 text-sm">
-                2024 оны 1-6 дугаар сарын өгөгдөл
+                sfdbsdfvnsdfvsdfvmsdfvsd.vsdfv.mfdsvsdvjfwvfjnvew
               </p>
             </div>
 
@@ -157,30 +157,30 @@ function GlassmorphismChart() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/20">
-              <div className="mt-2 flex items-center justify-between">
-                <div className="flex items-center gap-4 mb-2">
-                  <p className="w-2 h-2 rounded-full bg-red-500"></p>
+            <div className="mt-6 pt-4 border-t border-white/20 ">
+              <div className="mt-2 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="w-3 h-3 rounded-full bg-blue-400"></p>
                   <p className="text-gray-400 text-[12px]">Хүлээгдэж буй</p>
                 </div>
-                <div className="flex items-center gap-4 mb-2">
-                  <p className="w-2 h-2 rounded-full bg-red-500"></p>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="w-3 h-3 rounded-full bg-emerald-400"></p>
                   <p className="text-gray-400 text-[12px]">Хэрэгжиж буй</p>
                 </div>
-                <div className="flex items-center gap-4 mb-2">
-                  <p className="w-2 h-2 rounded-full bg-red-500"></p>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="w-3 h-3 rounded-full bg-orange-400"></p>
                   <p className="text-gray-400 text-[12px]">Дууссан</p>
                 </div>
-                <div className="flex items-center gap-4 mb-2">
-                  <p className="w-2 h-2 rounded-full bg-red-500"></p>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="w-3 h-3 rounded-full bg-red-400"></p>
                   <p className="text-gray-400 text-[12px]">Цуцлагдсан</p>
                 </div>
-                <div className="flex items-center gap-4 mb-2">
-                  <p className="w-2 h-2 rounded-full bg-red-500"></p>
+                <div className="flex items-center gap-2 mb-2">
+                  <p className="w-3 h-3 rounded-full bg-emerald-400"></p>
                   <p className="text-gray-400 text-[12px]">Тест хийгдэж буй</p>
                 </div>
               </div>
-              <p className="text-white/60 text-sm">
+              <p className="text-white/60 text-sm mt-8">
                 Сүүлийн 12 сарын статусын үзүүлэлт
               </p>
             </div>

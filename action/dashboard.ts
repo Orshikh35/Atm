@@ -74,7 +74,7 @@ export const getStatus = async () => {
     const result = await response.json();
     //console.log({result});
 
-    return result;
+    return { success: true, result };
   } catch (error) {
     console.error("GET Error:", error);
     return { status: false, message: "Алдаа гарлаа." };

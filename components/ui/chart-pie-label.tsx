@@ -10,11 +10,11 @@ type PieData = {
 };
 
 const gradients = [
-  "#93C5FD", // Pending
-  "#6EE7B7", // Completed
-  "#FCD34D", // InProgress
-  "#FCA5A5", // Cancelled
-  "#C4B5FD", // Testing
+  "#3B82F6", // Pending – Blue
+  "#10B981", // Completed – Green
+  "#F59E0B", // InProgress – Amber
+  "#EF4444", // Cancelled – Red
+  "#8B5CF6", // Testing – Violet
 ];
 
 function GlassmorphismPieChart() {
@@ -41,9 +41,11 @@ function GlassmorphismPieChart() {
       <div className="relative z-10">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
-            Хөтөчийн хуваарилалт
+            Хүсэлтийн хуваарилалт
           </h2>
-          <p className="text-blue-200/80 text-sm">2024 оны 1-6 дугаар сарын өгөгдөл</p>
+          <p className="text-white/60 text-sm text-center">
+            Сүүлийн 6 сарын нийт {total.toLocaleString()} хүсэлт хүлээн авсан
+          </p>
         </div>
 
         <div className="h-96 w-full mb-6">
@@ -73,17 +75,49 @@ function GlassmorphismPieChart() {
           </ResponsiveContainer>
         </div>
 
-        <div className="pt-4 border-t border-white/20">
-          <div className="flex items-center justify-center gap-2 text-white/90 font-medium mb-2">
-            <TrendingUp className="h-5 w-5 text-green-400" />
-            <span>Энэ сард 5.2% өсөлт</span>
+        {/* Footer stats */}
+        <div className="pt-6 border-t border-white/20 flex flex-col items-center gap-3">
+          <div className="flex items-center justify-between  text-white/90 font-medium mt-4">
+            <div className="grid grid-cols-3 gap-8 w-full text-sm text-white/80">
+              {data.slice(0, 3).map((entry, index) => (
+                <div key={entry.status} className="flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full"
+                    style={{
+                      backgroundColor: gradients[index % gradients.length],
+                    }}
+                  ></span>
+                  <span className="text-white/60 text-[12px]">
+                    {entry.status} — {entry.totalRequests.toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="text-white/60 text-sm text-center">
-            Сүүлийн 6 сарын нийт {total.toLocaleString()} хүсэлт хүлээн авсан
-          </p>
+
+          {/* Second row with 2 items centered */}
+          <div className="flex justify-center mt-4">
+            <div className="grid grid-cols-2 gap-6">
+              {data.slice(3).map((entry, index) => (
+                <div key={entry.status} className="flex items-center gap-2">
+                  <span
+                    className="w-3 h-3 rounded-full"
+                    style={{
+                      backgroundColor:
+                        gradients[(index + 3) % gradients.length],
+                    }}
+                  ></span>
+                  <span className="text-white/60 text-[12px]">
+                    {entry.status} — {entry.totalRequests.toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Glass shine */}
       <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent rounded-t-3xl pointer-events-none"></div>
     </div>
   );

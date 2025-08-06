@@ -13,6 +13,7 @@ import { DeleteDialog } from "@/components/deleteModal";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
+import Header from "./header";
 
 function Atm() {
   const [data, setData] = useState<any[]>([]);

@@ -12,19 +12,13 @@ import {
 } from "@tanstack/react-table";
 import React, { JSX, useEffect, useState } from "react";
 import {
-  ArrowUpDown,
-  Download,
-  Search,
-  Plus,
   Edit3,
   Trash2,
+  Search,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import Modal from "../../../../components/ui/modal";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
-import { toast } from "sonner";
 
 interface BaseData {
   id: number;
@@ -88,7 +82,7 @@ export default function DataTable<TData extends BaseData>({
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    initialState: { pagination: { pageSize: 10 } },
+    initialState: { pagination: { pageSize: 15 } },
     onSortingChange: setSorting,
     state: {
       sorting,
@@ -115,63 +109,62 @@ export default function DataTable<TData extends BaseData>({
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-250px)] rounded-xl ] shadow-sm border border-white/10 w-full p-1 ">
-      <div className="flex-1 overflow-auto">
-        <table className="w-full border-collapse">
-          <thead className="sticky top-0 z-10 ">
+    <div className="backdrop-blur-md bg-white/5 border border-white/10 rounded-xl shadow-lg p-1 pb-1 h-[calc(100vh-160px)] w-[calc(100vw-370px)] flex flex-col">
+      <div className="flex-1 overflow-auto rounded-lg">
+        <table className="w-full border-collapse text-white text-sm">
+          <thead className="sticky top-0 bg-[rgba(255,255,255,0.04)] backdrop-blur-xl backdrop-brightness-90 border-b border-white/6 ">
             <tr className="border-b border-white/10">
-              <th className="px-4 py-3 text-left font-medium text-white uppercase text-xs w-12">
+              <th className="px-4 py-3 text-left uppercase text-xs font-bold">
                 №
               </th>
               {table.getHeaderGroups()[0]?.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-3 text-center font-medium text-white uppercase text-xs"
+                  className="px-4 py-3 text-center uppercase text-xs font-bold"
                 >
-                  <button className="flex items-center gap-1">
-                    {flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-                  </button>
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
                 </th>
               ))}
-              <th className="px-4 py-3 text-right font-medium text-white uppercase text-xs w-24">
+              <th className="px-4 py-3 text-right uppercase text-xs font-bold">
                 Үйлдэл
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-white/10">
             {table.getRowModel().rows.map((row, index) => (
-              <tr key={row.id} className="hover:bg-white/10">
-                <td className="px-4 py-3 text-white text-sm text-center">
+              <tr
+                key={row.id}
+                className="hover:bg-white/10 transition-all duration-150"
+              >
+                <td className="px-4 py-3 text-center">
                   {table.getState().pagination.pageIndex *
                     table.getState().pagination.pageSize +
                     index +
                     1}
                 </td>
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-3  text-sm">
-                    <div className="">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </div>
+                  <td key={cell.id} className="px-4 py-3 text-center">
+                    {flexRender(
+                      cell.column.columnDef.cell,
+                      cell.getContext()
+                    )}
                   </td>
                 ))}
                 <td className="px-4 py-3 text-right">
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={() => handleEdit(row.original)}
-                      className="p-1.5 text-blue-600 "
+                      className="p-1.5 rounded bg-blue-600/20 hover:bg-blue-600/30 text-blue-400"
                       title="Засах"
                     >
                       <Edit3 size={16} />
                     </button>
                     <button
                       onClick={() => onDelete(row.original.id)}
-                      className="p-1.5 text-red-600"
+                      className="p-1.5 rounded bg-red-600/20 hover:bg-red-600/30 text-red-400"
                       title="Устгах"
                     >
                       <Trash2 size={16} />
@@ -185,14 +178,36 @@ export default function DataTable<TData extends BaseData>({
 
         {data.length === 0 && (
           <div className="flex flex-col items-center justify-center py-16 text-center">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <Search size={24} className="text-gray-400" />
+            <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4">
+              <Search size={24} className="text-white/50" />
             </div>
-            <h3 className="text-lg font-medium text-white mb-1">
-              Мэдээлэл олдсонгүй
-            </h3>
+            <h3 className="text-lg font-medium text-white">Мэдээлэл олдсонгүй</h3>
           </div>
         )}
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-4 text-white text-sm px-1">
+        <div>
+          Хуудас {table.getState().pagination.pageIndex + 1} /{" "}
+          {table.getPageCount()}
+        </div>
+        <div className="flex gap-2">
+          <button
+            className="px-2 py-1 rounded bg-white/10 hover:bg-white/20"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            className="px-2 py-1 rounded bg-white/10 hover:bg-white/20"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
       </div>
 
       <Modal

@@ -86,7 +86,7 @@ function Sidebar() {
         </nav>
       </div>
 
-      <div className="flex items-center gap-3 px-4 relative z-10 bg-white/10 backdrop-blur-sm rounded-xl mx-2 py-3 border border-white/20">
+      <div className="flex items-center gap-3 pl-4 py-3 ml-3 rounded-l-xl relative transition-all duration-300 backdrop-blur-sm">
         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-purple-400 flex items-center justify-center shadow-lg border border-white/20">
           <span className="text-white font-semibold text-sm drop-shadow-sm">B</span>
         </div>

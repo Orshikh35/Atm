@@ -219,10 +219,9 @@ function Kiosk() {
             </div>
             
             <div className="flex gap-3">
-              <button
-           onClick={() => exportToExcel(data, "devices_data.xlsx")}
-
-                className="flex items-center gap-2 px-4 py-2 text-orange-600 rounded-lg text-sm font-medium transition-colors border border-orange-600"
+            <button
+                onClick={() => exportToExcel(data, "devices_data.xlsx")}
+                className="flex items-center gap-2 px-4 py-2 text-white bg-green-600 rounded-lg text-sm font-medium transition-colors border border-green-600"
               >
                 <Download size={16} />
                 <span>Excel</span>
@@ -249,7 +248,7 @@ function Kiosk() {
                     orgName: ""
                   });
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium transition-colors"
               >
                 <Plus size={16} />
                 <span>Шинэ</span>

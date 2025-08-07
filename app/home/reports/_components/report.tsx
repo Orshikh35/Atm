@@ -8,8 +8,7 @@ import { ATM } from "@/types/request";
 import { Download, Search } from "lucide-react";
 import exportToExcel from "@/components/exportToExcel";
 import { exportToWord } from "@/lib/export-word";
-import { get } from "http";
-import { getReport } from "@/action/reports";
+import { getReport } from "@/action/login";
 
 function Report() {
   const [data, setData] = useState<any[]>([]);

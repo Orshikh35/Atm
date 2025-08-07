@@ -78,7 +78,7 @@ function GlassmorphismPieChart() {
         {/* Footer stats */}
         <div className="pt-6 border-t border-white/20 flex flex-col items-center gap-3">
           <div className="flex items-center justify-between  text-white/90 font-medium mt-4">
-            <div className="grid grid-cols-3 gap-8 w-full text-sm text-white/80">
+            <div className="grid grid-cols-3  w-full text-sm text-white/80">
               {data.slice(0, 3).map((entry, index) => (
                 <div key={entry.status} className="flex items-center gap-2">
                   <span

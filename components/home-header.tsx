@@ -1,11 +1,24 @@
 "use client";
 import { getEnvValue } from "@/lib/api/api";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, useCallback } from "react";
-import { useTheme } from "next-themes";
+import { useEffect } from "react";
 
 function NavHeader() {
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchAndRedirect = async () => {
+      const url = await getEnvValue("AUTH_URL");
+      if (url) {
+        router.push(`${url}?appName=crm`);
+      } else {
+        console.error("AUTH_URL not found");
+      }
+    };
+  
+    fetchAndRedirect();
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#0b2e49] to-[#155e75] relative overflow-hidden">
       {/* Layered background with multiple gradients for depth */}
@@ -29,10 +42,11 @@ function NavHeader() {
 
         {/* Continue button */}
         <button
-          onClick={async () => {
-            const url = await getEnvValue("AUTH_URL");
-            router.push(`${url}?appName=crm`);
-          }}
+          // onClick={async () => {
+          //   const url = await getEnvValue("AUTH_URL");
+          //   router.push(`${url}?appName=crm`);
+          //   console.log("Redirecting to:", url);
+          // }}
           className="w-full bg-blue-500  font-semibold py-3 px-4 rounded-xl shadow-lg text-white"
         >
           Нэвтрэх

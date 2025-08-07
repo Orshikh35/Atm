@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 function Sidebar() {
   const pathname = usePathname();

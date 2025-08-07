@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import DataTable from "@/app/(home)/reports/_components/reportTable";
+import DataTable from "@/app/home/reports/_components/reportTable";
 import { toast } from "sonner";
 import dayjs from "dayjs";
 import { ATM } from "@/types/request";
